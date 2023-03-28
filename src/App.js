@@ -1,24 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route,HashRouter } from 'react-router-dom'
+import LoginScreen from './screens/LoginScreen.js'
+import RegisterScreen from './screens/RegisterScreen.js'
+import MapScreen from './screens/MapScreen.js'
+import DocumentScreen from './screens/DocumentScreen.js'
+import LayerScreen from './screens/LayerScreen.js'
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+       
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LoginScreen />} />
+        <Route exact path="/register" element={<RegisterScreen />} />
+        <Route exact path="/map" element={<MapScreen />} />
+        <Route exact path="/create" element={<DocumentScreen />} />
+        <Route exact path="/layer" element={<LayerScreen />} />
+        
+        {/* <Route
+                   exact
+                   path="/dashboard/profile"
+                   element={<DashboardScreen />}
+                /> */}
+      
+        {/* <Route
+                   exact
+                   path="/DemandNotice"
+                   element={<BlankScreen />}
+                />
+        <Route
+                   exact
+                   path="/blank"
+                   element={<Blank />}
+                /> */}
+      
+      
+         
+      
+        
+      </Routes>
+    </BrowserRouter>
+    {/* <Footer /> */}
+  </>
   );
 }
 
