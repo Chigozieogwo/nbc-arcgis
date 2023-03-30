@@ -51,7 +51,7 @@ const SidebarLeft = () => {
                   </div>
                   </Link>
                   
-                  <Link to="/create">
+                  <Link to="/details">
                   <div className="group ">
                   <div className=" group-hover:bg-green-500 px-4 py-2 cursor-pointer group-hover:text-white">
                      <div className="flex justify-center items-center">

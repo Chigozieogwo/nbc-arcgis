@@ -5,7 +5,14 @@ import { Fragment } from 'react';
 import file2 from "../images/file2.png"
 import SidebarLayer from '../components/SidebarLayer';
 import SidebarLeft from '../components/SidebarLeft';
-
+import line from "../images/line.png"
+import circle from "../images/circle.png"
+import moon from "../images/moon.png"
+import edit from "../images/editing.png"
+import square from "../images/square.png"
+import pentagon from "../images/pentagon.png"
+import pin from "../images/pin.png"
+import delete1 from "../images/delete.png"
 
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -73,7 +80,7 @@ const LayerScreen = ({ match }) => {
 
          <div class="bg-white">
                   {/* <label for="my-drawer-3" class="drawer-overlay"></label> */}
-                  <ul class="  w-20 ">
+                  <ul class="hidden md:block   w-20 ">
                      {/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<< the Sidebar >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/}
                      <SidebarLeft></SidebarLeft>
                      {/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<< the Sidebar >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/}
@@ -81,7 +88,44 @@ const LayerScreen = ({ match }) => {
                  
                </div>
                <div className="w-full bg-slate-100 ">
-                  <div className="h-10"></div>
+               <div className="h-10 bg-gray-800 flex justify-between ">
+                  <div className="block md:flex -space-x-0.5 items-center cursor-pointer">
+                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img alt="" className="w-5 " src={line}></img>
+                       
+                     </div>
+                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img alt="" className="w-5 " src={pentagon}></img>
+                       
+                     </div>
+                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img alt="" className="w-5 " src={square}></img>
+                       
+                     </div>
+                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img alt="" className="w-5 " src={circle}></img>
+                       
+                     </div>
+                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img alt="" className="w-5 " src={pin}></img>
+                       
+                     </div>
+                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img alt="" className="w-5 " src={moon}></img>
+                       
+                     </div>
+                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img alt="" className="w-5 " src={edit}></img>
+                       
+                     </div>
+                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img alt="" className="w-5 " src={delete1}></img>
+                       
+                     </div>
+                  </div>
+                  <p className="text-white text-center ml-0 md:-ml-72 flex items-center">National Sokoto Boundaries/Overview</p>
+                  <p className="text-white"></p>
+                  </div>
                    <div className=" ficonlayer min-h-screen flex justify-center items-center cursor-pointer  ">
                      
                    </div>

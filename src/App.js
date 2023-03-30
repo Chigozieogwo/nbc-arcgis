@@ -4,6 +4,7 @@ import RegisterScreen from './screens/RegisterScreen.js'
 import MapScreen from './screens/MapScreen.js'
 import DocumentScreen from './screens/DocumentScreen.js'
 import LayerScreen from './screens/LayerScreen.js'
+import DetailScreen from './screens/DetailScreen.js'
 
 
 function App() {
@@ -17,6 +18,8 @@ function App() {
         <Route exact path="/map" element={<MapScreen />} />
         <Route exact path="/create" element={<DocumentScreen />} />
         <Route exact path="/layer" element={<LayerScreen />} />
+        <Route exact path="/layer" element={<LayerScreen />} />
+        <Route exact path="/details" element={<DetailScreen />} />
         
         {/* <Route
                    exact

@@ -12,5 +12,20 @@
     background-repeat: object-cover;
     background-size:contain
   }
+.ficon3 {
+    background-image:url('./images/details.png');
+    background-repeat: object-cover;
+    background-size:contain
+  }
+.right1 {
+    background-image:url('./images/right.png');
+    background-repeat: object-cover;
+    /* background-size:contain */
+  }
+.left1 {
+    background-image:url('./images/left.png');
+    background-repeat: object-cover;
+    /* background-size:contain */
+  }
   
   

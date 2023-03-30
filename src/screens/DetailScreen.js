@@ -10,8 +10,10 @@ import edit from "../images/editing.png"
 import square from "../images/square.png"
 import pentagon from "../images/pentagon.png"
 import pin from "../images/pin.png"
+import right from "../images/right.png"
+import left from "../images/left.png"
 import delete1 from "../images/delete.png"
-import Sidebar from '../components/Sidebar';
+import SidebarDetail from '../components/SidebarDetail';
 import SidebarLeft from '../components/SidebarLeft';
 
 
@@ -29,7 +31,7 @@ import moment from 'moment';
 //    USER_UPDATE_PROFILE_ME_RESET
 // } from '../constants/userConstants';
 
-const MapScreen = ({ match }) => {
+const DetailScreen = ({ match }) => {
 //    const [userDepositm, setUserDepositm] = useState({});
 //    const location = useLocation();
 //    const navigate = useNavigate();
@@ -132,15 +134,18 @@ const MapScreen = ({ match }) => {
                   <p className="text-white"></p>
                   </div>
                   </div>
-                   <div className=" ficon min-h-screen flex justify-center items-center cursor-pointer  ">
-                     <div className="bg-white rounded-md group px-8 py-3 group-hover:bg-green-500">
-                        <div className="flex justify-center items-center mb-4">
-                           <img alt="" className="w-10" src={file2}></img> 
-                           
-                        </div>
-                           <h4 className="text-xl font-bold  text-gray-500">Create New Document</h4>
+
+                  <div>
+                    <div className="flex  justify-between space-x-2 px-4 py-2">
+                        <div className="right flex justify-center bg-white h-56 w-[50%] "><img className="" src={right} alt=""></img></div>
+                        <div className="left flex justify-center bg-white h-56 w-[50%]"><img src={left} alt=""></img></div>
+                        
+                    </div>
+                  <div className=" ficon3 h-72 flex justify-center items-center cursor-pointer  ">
+                     
                      </div>
-                   </div>
+                  </div>
+                   
                    
                   
                    
@@ -149,7 +154,7 @@ const MapScreen = ({ match }) => {
                   {/* <label for="my-drawer-3" class="drawer-overlay"></label> */}
                   <ul class="w-60 ">
                      {/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<< the Sidebar >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/}
-                     <Sidebar></Sidebar>
+                     <SidebarDetail></SidebarDetail>
                      {/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<< the Sidebar >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/}
                   </ul>
                  
@@ -168,4 +173,4 @@ const MapScreen = ({ match }) => {
    );
 };
 
-export default MapScreen;
+export default DetailScreen;
