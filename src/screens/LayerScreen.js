@@ -88,44 +88,66 @@ const LayerScreen = ({ match }) => {
                  
                </div>
                <div className="w-full bg-slate-100 ">
-               <div className="h-10 bg-gray-800 flex justify-between ">
+              
+               <div className="">
+                  <div className="h-10 bg-gray-800 flex justify-between ">
                   <div className="block md:flex -space-x-0.5 items-center cursor-pointer">
-                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
-                        <img alt="" className="w-5 " src={line}></img>
-                       
+                     <div className="h-10 w-10 group relative border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img className="w-5 " src={line}></img>
+                        <span className="group-hover:visible absolute -right-12 md:right-0 md:-bottom-6 rounded-md shadow-md text-white bg-gray-900  text-xs font-bold transition-all duration-100 px-1 py-0.5 text-center min-w-max invisible">
+                line
+            </span>
                      </div>
-                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
-                        <img alt="" className="w-5 " src={pentagon}></img>
-                       
+                     <div className="h-10 w-10 group relative border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img className="w-5 " src={pentagon}></img>
+                        <span className="group-hover:visible absolute -right-12 md:right-0 md:-bottom-6 rounded-md shadow-md text-white bg-gray-900  text-xs font-bold transition-all duration-100 px-1 py-0.5 text-center min-w-max invisible">
+                pentagon
+            </span>
                      </div>
-                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
-                        <img alt="" className="w-5 " src={square}></img>
-                       
+                     <div className="group relative  h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img data-tip="circle" data-for="tooltip-button"  alt="" className="w-5 " src={square}></img>
+                        <span className="group-hover:visible absolute -right-12 md:right-0 md:-bottom-6 rounded-md shadow-md text-white bg-gray-900  text-xs font-bold transition-all duration-100 px-1 py-0.5 text-center min-w-max invisible">
+                square
+            </span>
                      </div>
-                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
-                        <img alt="" className="w-5 " src={circle}></img>
-                       
+                    
+                     <div className="group relative h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img  alt="" className="w-5 " src={circle}></img>
+                        <span className="group-hover:visible absolute -right-12 md:right-0 md:-bottom-6 rounded-md shadow-md text-white bg-gray-900  text-xs font-bold transition-all duration-100 px-1 py-0.5 text-center min-w-max invisible">
+                circle
+            </span>
                      </div>
-                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
-                        <img alt="" className="w-5 " src={pin}></img>
-                       
+                     <div className="group relative h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img  alt="" className="w-5 " src={pin}></img>
+                        <span className="group-hover:visible absolute -right-12 md:right-0 md:-bottom-6 rounded-md shadow-md text-white bg-gray-900  text-xs font-bold transition-all duration-100 px-1 py-0.5 text-center min-w-max invisible">
+                pin
+            </span>
                      </div>
-                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
-                        <img alt="" className="w-5 " src={moon}></img>
-                       
+                     <div className="h-10 w-10 group relative border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img  alt="" className="w-5 " src={moon}></img>
+                        <span className="group-hover:visible absolute -right-12 md:right-0 md:-bottom-6 rounded-md shadow-md text-white bg-gray-900  text-xs font-bold transition-all duration-100 px-1 py-0.5 text-center min-w-max invisible">
+                point
+            </span>
                      </div>
-                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
-                        <img alt="" className="w-5 " src={edit}></img>
-                       
+                     <div className="h-10 w-10 group relative border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img  alt="" className="w-5 " src={edit}></img>
+                        <span className="group-hover:visible absolute -right-12 md:right-0 md:-bottom-6 rounded-md shadow-md text-white bg-gray-900  text-xs font-bold transition-all duration-100 px-1 py-0.5 text-center min-w-max invisible">
+                edit
+            </span>
                      </div>
-                     <div className="h-10 w-10 border flex justify-center items-center border-2 bg-white border-gray-500 ">
-                        <img alt="" className="w-5 " src={delete1}></img>
-                       
+                     <div className="h-10 w-10 group relative border flex justify-center items-center border-2 bg-white border-gray-500 ">
+                        <img  alt="" className="w-5 " src={delete1}></img>
+                        <span className="group-hover:visible absolute -right-12 md:right-0 md:-bottom-6 rounded-md shadow-md text-white bg-gray-900  text-xs font-bold transition-all duration-100 px-1 py-0.5 text-center min-w-max invisible">
+                delete
+            </span>
                      </div>
                   </div>
                   <p className="text-white text-center ml-0 md:-ml-72 flex items-center">National Sokoto Boundaries/Overview</p>
                   <p className="text-white"></p>
                   </div>
+                  </div>
+
+
                    <div className=" ficonlayer min-h-screen flex justify-center items-center cursor-pointer  ">
                      
                    </div>

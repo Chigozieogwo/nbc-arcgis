@@ -21,7 +21,7 @@ const [open ,setOpen] = useState(false)
          <div class="w-full navbar py-0 px-4 bg-white">
             <div class="flex-1">
                {' '}
-               <Link to={'/'} class="flex items-center">
+               <Link to={''} class="flex items-center">
                   <img
                      src={nbc}
                      class="mr-10 h-9 sm:h-9"
@@ -33,7 +33,7 @@ const [open ,setOpen] = useState(false)
 
                   <li className="">
                      <Link
-                        to={'/'}
+                        to={''}
                         class="block rounded py-2 mt-1 pr-4 pl-3 text-gray-800  border-gray-100 hover:bg-blue-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                     
                         >
@@ -43,7 +43,7 @@ const [open ,setOpen] = useState(false)
                        </div>
                   <li>
                      <Link
-                        to={'/'}
+                        to={''}
                         class="block rounded py-2 mt-1 pr-4 pl-3 text-gray-800  border-gray-100 hover:bg-blue-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                     
                     >
@@ -52,7 +52,8 @@ const [open ,setOpen] = useState(false)
                   </li>
                   <li>
                      <Link
-                        to={'/'}
+                        to={''}
+                        onClick={() => window.print()}
                         class="block rounded py-2 mt-1 pr-4 pl-3 text-gray-800  border-gray-100 hover:bg-blue-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                      >
                         Print
@@ -61,7 +62,7 @@ const [open ,setOpen] = useState(false)
 
                   <li>
                      <Link
-                        to={'/'}
+                        to={''}
                         class="block rounded py-2 mt-1 pr-4 pl-3 text-gray-800  border-gray-100 hover:bg-blue-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                      >
                         Settings
@@ -94,8 +95,8 @@ const [open ,setOpen] = useState(false)
             </button>
             <div class="dropdown px-2 dropdown-end">
                <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-                  <div class="w-10 rounded-full">
-                     <img className="w-8"
+                  <div class="w-7 rounded-full">
+                     <img className="w-7"
                        src={user}
                         alt=""
                      />
@@ -105,7 +106,7 @@ const [open ,setOpen] = useState(false)
                   tabindex="0"
                   class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
                >
-                  <Link to="/profile">
+                  <Link to="">
                      {' '}
                      <li>
                         <a class="justify-between">Profile</a>
@@ -118,7 +119,7 @@ const [open ,setOpen] = useState(false)
                      </li>
                   </Link> */}
 
-                  <Link to="/login">
+                  <Link to="/">
                      <li >
                         <a>Logout</a>
                      </li>
