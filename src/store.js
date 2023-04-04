@@ -4,9 +4,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import {
    userLoginReducer,
-   userDetailsReducer,
-  
+   userDetailsReducer, 
 } from './reducers/userReducers';
+import {
+   addLayerToMapReducer,
+   featureLayerDetailsReducer, 
+} from './reducers/featureLayerReducers';
 
 
 
@@ -14,6 +17,9 @@ import {
 const reducer = combineReducers({
     userLogin: userLoginReducer, 
     userDetails: userDetailsReducer,
+
+     addLayerToMap:  addLayerToMapReducer,
+     featureLayerDetails: featureLayerDetailsReducer,
      });
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

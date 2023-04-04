@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link ,useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate,useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 // import Message from '../components/Message';
 
@@ -25,9 +25,9 @@ const LoginScreen = () => {
      : '/map';
 
   useEffect(() => {
-    //  if (userInfo) {
-    //     navigate(redirect);
-    //  }
+     if (userInfo) {
+        navigate(redirect);
+     }
   }, [navigate, userInfo, redirect]);
 
   const submitHandler = (e) => {
@@ -86,7 +86,7 @@ const LoginScreen = () => {
                   </label> */}
                 </div>
                 <div class="form-control mt-6">
-                <Link  to="/map">
+                <Link  onClick={submitHandler}>
                   <button
                       type="button"
                       

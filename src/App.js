@@ -5,7 +5,8 @@ import MapScreen from './screens/MapScreen.js'
 import DocumentScreen from './screens/DocumentScreen.js'
 import LayerScreen from './screens/LayerScreen.js'
 import DetailScreen from './screens/DetailScreen.js'
-
+import esriConfig from "@arcgis/core/config.js";
+esriConfig.assetsPath = "./assets"; 
 
 function App() {
   return (

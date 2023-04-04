@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "@arcgis/core/assets/esri/themes/light/main.css";
+
 
 .ficon {
     background-image:url('./images/bg.png');

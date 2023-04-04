@@ -1,5 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
-import React, { useState, useEffect } from 'react';
+
+import React, { useState,useRef, useEffect } from 'react';
 import HeaderLog from '../components/HeaderLog';
 import { Fragment } from 'react';
 import file2 from "../images/file2.png"
@@ -26,48 +27,63 @@ import moment from 'moment';
 
 import { Tooltip} from 'react-tooltip';
 
-// import {
-//    USER_UPDATE_PROFILE_RESET,
-//    USER_UPDATE_PROFILE_ME_RESET
-// } from '../constants/userConstants';
+import {
+   USER_UPDATE_PROFILE_RESET,
+   USER_UPDATE_PROFILE_ME_RESET
+} from '../constants/userConstants';
+
+// import { MapView } from '@arcgis/core/views';
+
+
+// import { GeoJSONLayer } from '@arcgis/core/layers';
+import { SpatialReference, Extent } from '@arcgis/core/geometry';
+// import * as esriLoader from 'esri-loader';
+import { loadModules } from 'esri-loader';
 
 const MapScreen = ({ match }) => {
-//    const [userDepositm, setUserDepositm] = useState({});
-//    const location = useLocation();
-//    const navigate = useNavigate();
+   // const [userDepositm, setUserDepositm] = useState({});
+   const location = useLocation();
+   const navigate = useNavigate();
+   const mapRef = useRef();
+   const dispatch = useDispatch();
 
-//    const dispatch = useDispatch();
+   const userLogin = useSelector((state) => state.userLogin);
+   const { userInfo } = userLogin;
 
-//    const userLogin = useSelector((state) => state.userLogin);
-//    const { userInfo } = userLogin;
+   const userDetails = useSelector((state) => state.userDetails);
+   const { loading, error, user } = userDetails;
 
-//    const userDetails = useSelector((state) => state.userDetails);
-//    const { loading, error, user } = userDetails;
-//    const { acctBalance } = user;
 
-   // }
-   // console.log(JSON.stringify(userDeposits) + 'dashboard userInfo');
+   
 
-//    useEffect(() => {
-//       // if (user.name) {
-//       //    dispatch(userDepositAction());
-//       //    console.log(userDeposits + 'nice come and see the goodness');
-//       // }
-//       // dispatch(getUserDetails('profile'));
-//       if (!userInfo) {
-//          navigate('/login');
-//       } else {
-//          // dispatch(getUserDetails('profile'));
-//          if (!user || !user.name) {
-//             // dispatch({ type: USER_UPDATE_PROFILE_RESET });
-//             dispatch(getUserDetails('profile'));
-//             // dispatch(userDepositAction());
-
-//             // const depo = setUserDepositm(userDeposits);
-//             // console.log(depo + 'come and see the goodness');
-//          }
-//       }
-//    }, [navigate, userInfo, user]);
+useEffect(() => {
+     
+      if (!userInfo) {
+         navigate('/');
+      } else {
+         //  dispatch(getUserDetails('profile'));
+         if (!user || !user.firstName) {
+            // dispatch({ type: USER_UPDATE_PROFILE_RESET });
+            dispatch(getUserDetails());
+            loadModules(['esri/Map', 'esri/views/MapView'], { css: true })
+            .then(([Map, MapView]) => {
+              const map = new Map({
+                basemap: 'streets'
+              });
+              const view = new MapView({
+                container: mapRef.current,
+                map: map,
+                center: [8.50, 8.50],
+                zoom: 5
+              });
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+           
+         }
+      }
+   }, [navigate, userInfo, user]);
 
    return (
       <>
@@ -151,7 +167,8 @@ const MapScreen = ({ match }) => {
                   <p className="text-white"></p>
                   </div>
                   </div>
-                   <div className=" ficon min-h-screen flex justify-center items-center cursor-pointer  ">
+                  <div ref={mapRef} className="min-h-screen" ></div>
+                   {/* <div className=" ficon min-h-screen flex justify-center items-center cursor-pointer  ">
                      <div className="bg-white rounded-md group px-8 py-3 group-hover:bg-green-500">
                         <div className="flex justify-center items-center mb-4">
                            <img alt="" className="w-10" src={file2}></img> 
@@ -159,7 +176,7 @@ const MapScreen = ({ match }) => {
                         </div>
                            <h4 className="text-xl font-bold  text-gray-500">Create New Document</h4>
                      </div>
-                   </div>
+                   </div> */}
                    
                   
                    

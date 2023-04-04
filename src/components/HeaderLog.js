@@ -119,7 +119,7 @@ const [open ,setOpen] = useState(false)
                      </li>
                   </Link> */}
 
-                  <Link to="/">
+                  <Link onClick={logoutHandler}>
                      <li >
                         <a>Logout</a>
                      </li>

@@ -5,6 +5,8 @@ import App from './App';
 import { Provider } from 'react-redux';
 import store from './store.js';
 import reportWebVitals from './reportWebVitals';
+import { loadModules } from 'esri-loader';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -52,7 +52,7 @@ const LayerScreen = ({ match }) => {
    const { loading : layerLoading, error : layerError, layer } = featureLayerDetails;
 
    // console.log(featureLayerData + "LAYER FOUND 22")
-   console.log(JSON.stringify(layer?.geometryContent?.coordinates)  + "LAYER FOUND 22")
+
 
   
 
