@@ -94,7 +94,7 @@ const LayerScreen = ({ match }) => {
       ]).then(([Map, MapView, Graphic, GraphicsLayer]) => {
         // create a new Map instance
         const map = new Map({
-          basemap: 'hybrid'
+          basemap: 'streets-navigation-vector'
         });
 
 
@@ -275,7 +275,7 @@ const LayerScreen = ({ match }) => {
     <label for="link-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Layers <a href="#" class="text-teal-600 dark:text-teal-500 hover:underline"></a></label>
 </div>
                 
-
+                
 {
     featureLayers?.map((layer, index) =>
     <div class="flex items-center ml-4">
