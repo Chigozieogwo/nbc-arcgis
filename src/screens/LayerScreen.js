@@ -34,6 +34,7 @@ import document2 from "../images/file.png"
 const LayerScreen = ({ match }) => {
    const mapRef = useRef(null);
    const [view, setView] = useState(null);
+   const [featureLayerId, setFeatureLayerId] = useState();
    // const [featureLayerData, setFeatureLayerData] = useState(null);
    const mapViewRef = useRef();
    const [geojsonData, setGeojsonData] = useState(null);
@@ -49,8 +50,9 @@ const LayerScreen = ({ match }) => {
    const ListFeatureLayer = useSelector(state => state.ListFeatureLayer)
    const { loading : featureLayersLoading, error : featureLayersError, featureLayers } = ListFeatureLayer;
 
-   console.log(featureLayers + "FEATURE LAYER ")
-   console.log(JSON.stringify(featureLayers)  + "LAYER FOUND 22")
+  //  console.log(featureLayers + "FEATURE LAYER ")
+   console.log(featureLayerId + " ID FEATURE LAYER ")
+  //  console.log(JSON.stringify(featureLayers)  + "LAYER FOUND 22")
 
 
   
@@ -70,12 +72,15 @@ const LayerScreen = ({ match }) => {
    const featureLayerDetails = useSelector(state => state.featureLayerDetails)
    const { loading : layerLoading, error : layerError, layer } = featureLayerDetails;
 
-
+   const handleFeatureLayer = (layer) => {
+    setFeatureLayerId(layer)
+    dispatch(featureLayerDetailsAction(featureLayerId));
+ };
    // const ListFeatureLayer = useSelector(state => state.ListFeatureLayer)
    // const { loading : featureLayersLoading, error : featureLayersError, featureLayers } = ListFeatureLayer;
 
-   console.log(featureLayers + "FEATURE LAYER ")
-   console.log(JSON.stringify(featureLayers)  + "LAYER FOUND 22")
+  //  console.log(featureLayers + "FEATURE LAYER ")
+  //  console.log(JSON.stringify(featureLayers)  + "LAYER FOUND 22")
 
    useEffect(() => {
       dispatch(listFeatureLayerAction());
@@ -152,7 +157,7 @@ const LayerScreen = ({ match }) => {
         // update the state variable with the MapView instance
         setView(view);
       });
-    }, []);
+    }, [featureLayerId]);
 
     useEffect(() => {
       dispatch(featureLayerDetailsAction());
@@ -286,8 +291,8 @@ const LayerScreen = ({ match }) => {
 {
     featureLayers?.map((layer, index) =>
     <div class="flex items-center ml-4">
-    <input onclick={()=> dispatch(featureLayerDetailsAction(layer?._id)) } id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 rounded focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-    <label onclick={()=> dispatch(featureLayerDetailsAction(layer?._id)) }  for="link-checkbox" class="ml-2 text-xs font-medium text-gray-900 dark:text-gray-300">{layer?.description} <a href="#" class="text-teal-600 dark:text-teal-500 hover:underline"></a></label>
+    <input  id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 rounded focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
+    <label onClick={() => handleFeatureLayer( layer?._id ) }  for="link-checkbox" class="ml-2 text-xs font-medium text-gray-900 dark:text-gray-300">{layer?.description} <a href="#" class="text-teal-600 dark:text-teal-500 hover:underline"></a></label>
 </div>
   )
 }
