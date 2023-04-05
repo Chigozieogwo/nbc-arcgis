@@ -129,6 +129,7 @@ const LayerScreen = ({ match }) => {
               color: [0, 25, 0, 1],
               width: 5
             }
+
           }
         });
         graphicsLayer.add(graphic);
@@ -157,7 +158,8 @@ const LayerScreen = ({ match }) => {
       dispatch(featureLayerDetailsAction());
       setGeojsonData(layer?.geometryContent);
      
-    }, [layer,featureLayers]);
+      
+    }, []);
   
   
     return (

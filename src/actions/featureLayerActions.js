@@ -50,7 +50,7 @@ import {
           }
         };
         
-       const { data } = await axios.get(`${url}/featurelayers/r/${'64256c71eebde2dd4f92ba4f'}`, config);
+       const { data } = await axios.get(`${url}/featurelayers/r/${'64256c76eebde2dd4f92bf47'}`, config);
  
        dispatch({
           type: FEATURE_LAYER_DETAILS_SUCCESS,
