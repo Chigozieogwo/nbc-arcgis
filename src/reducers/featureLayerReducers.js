@@ -4,6 +4,10 @@ import {
     FEATURE_LAYER_DETAILS_REQUEST,
     FEATURE_LAYER_DETAILS_SUCCESS,
     FEATURE_LAYER_DETAILS_RESET,
+    LIST_FEATURE_LAYER_FAIL,
+    LIST_FEATURE_LAYER_REQUEST,
+    LIST_FEATURE_LAYER_SUCCESS,
+    LIST_FEATURE_LAYER_RESET,
     ADD_LAYER_TO_MAP_FAIL,
     ADD_LAYER_TO_MAP_REQUEST,
     ADD_LAYER_TO_MAP_SUCCESS,
@@ -46,4 +50,21 @@ import {
        default:
           return state;
     }
+};
+
+export const ListFeatureLayerReducer = (state = { featureLayers: [] }, action) => {
+   //   const { type, payload } = action
+   switch (action.type) {
+      case LIST_FEATURE_LAYER_REQUEST:
+         return { loading: true };
+      case LIST_FEATURE_LAYER_SUCCESS:
+         return {
+            loading: false,
+            featureLayers: action.payload
+         };
+      case LIST_FEATURE_LAYER_FAIL:
+         return { loading: false, error: action.payload };
+      default:
+         return state;
+   }
 };

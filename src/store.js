@@ -9,6 +9,7 @@ import {
 import {
    addLayerToMapReducer,
    featureLayerDetailsReducer, 
+   ListFeatureLayerReducer
 } from './reducers/featureLayerReducers';
 
 
@@ -17,6 +18,8 @@ import {
 const reducer = combineReducers({
     userLogin: userLoginReducer, 
     userDetails: userDetailsReducer,
+    
+    ListFeatureLayer :ListFeatureLayerReducer ,
 
      addLayerToMap:  addLayerToMapReducer,
      featureLayerDetails: featureLayerDetailsReducer,

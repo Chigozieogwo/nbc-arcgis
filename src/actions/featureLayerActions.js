@@ -4,6 +4,10 @@ import {
     FEATURE_LAYER_DETAILS_REQUEST,
     FEATURE_LAYER_DETAILS_SUCCESS,
     FEATURE_LAYER_DETAILS_RESET,
+    LIST_FEATURE_LAYER_FAIL,
+    LIST_FEATURE_LAYER_REQUEST,
+    LIST_FEATURE_LAYER_SUCCESS,
+    LIST_FEATURE_LAYER_RESET,
     ADD_LAYER_TO_MAP_FAIL,
     ADD_LAYER_TO_MAP_REQUEST,
     ADD_LAYER_TO_MAP_SUCCESS,
@@ -46,7 +50,7 @@ import {
           }
         };
         
-       const { data } = await axios.get(`${url}/featurelayers/r/${'64256af9eebde2dd4f917008'}`, config);
+       const { data } = await axios.get(`${url}/featurelayers/r/${'64256c71eebde2dd4f92ba4f'}`, config);
  
        dispatch({
           type: FEATURE_LAYER_DETAILS_SUCCESS,
@@ -112,3 +116,57 @@ console.log( layer)
          });
       }
    };
+
+
+   
+export const listFeatureLayerAction =
+() =>
+async (dispatch, getState) => {
+   try {
+      dispatch({
+         type: LIST_FEATURE_LAYER_REQUEST
+      });
+
+      const {
+         userLogin: { userInfo }
+      } = getState();
+     
+   
+      const config = {
+         headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${userInfo.accessToken}`,
+           
+         }
+       };
+
+       const { data } = await axios.get(
+        `${url}/featurelayers/r/`,
+        config
+     );
+
+      
+    
+      
+  
+
+      console.log(data);
+
+      dispatch({
+         type: LIST_FEATURE_LAYER_SUCCESS,
+         payload: data
+      });
+   } catch (error) {
+      const message =
+         error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+      // if (message === 'Not authorized, token failed') {
+      //    dispatch(logout());
+      // }
+      dispatch({
+         type: LIST_FEATURE_LAYER_FAIL,
+         payload: message
+      });
+   }
+};
