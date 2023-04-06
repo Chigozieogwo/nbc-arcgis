@@ -30,141 +30,108 @@ import file from "../images/file2.png"
 import document2 from "../images/file.png"
 
 
-
 const LayerScreen = ({ match }) => {
-   const mapRef = useRef(null);
-   const [view, setView] = useState(null);
-   const [featureLayerId, setFeatureLayerId] = useState();
-   // const [featureLayerData, setFeatureLayerData] = useState(null);
-   const mapViewRef = useRef();
-   const [geojsonData, setGeojsonData] = useState(null);
+  const mapRef = useRef(null);
+  const [view, setView] = useState(null);
+  const [featureLayerId, setFeatureLayerId] = useState();
+  const [polygonGraphic, setPolygonGraphic] = useState(null);
+  const [multiPolygonGraphic, setMultiPolygonGraphic] = useState(null);
 
-   // const [map, setMap] = useState(null);
-   // const [featureLayer, setFeatureLayer] = useState(null);
+  const dispatch = useDispatch();
 
-
-   const dispatch = useDispatch();
-
-
-
-   const ListFeatureLayer = useSelector(state => state.ListFeatureLayer)
-   const { loading : featureLayersLoading, error : featureLayersError, featureLayers } = ListFeatureLayer;
-
-  //  console.log(featureLayers + "FEATURE LAYER ")
-   console.log(featureLayerId + " ID FEATURE LAYER ")
-  //  console.log(JSON.stringify(featureLayers)  + "LAYER FOUND 22")
-
+  const featureLayerDetails = useSelector(state => state.featureLayerDetails)
+  const { loading : layerLoading, error : layerError, layer } = featureLayerDetails;
 
   
+  const ListFeatureLayer = useSelector(state => state.ListFeatureLayer)
+  const { loading : featureLayersLoading, error : featureLayersError, featureLayers } = ListFeatureLayer;
 
+  console.log(JSON.stringify(polygonGraphic) + " poly FEATURE LAYER ")
+  console.log(JSON.stringify(multiPolygonGraphic) + "multi FEATURE LAYER ")
+  console.log(featureLayerId + " ID FEATURE LAYER ")
+ //  console.log(JSON.stringify(featureLayers)  + "LAYER FOUND 22")
 
-   const location = useLocation();
-   const navigate = useNavigate();
-
-   // const dispatch = useDispatch();
-
-   const userLogin = useSelector((state) => state.userLogin);
-   const { userInfo } = userLogin;
-
-   const userDetails = useSelector((state) => state.userDetails);
-   const { loading, error, user } = userDetails;
+ const handleFeatureLayer = (layer) => {
+   setFeatureLayerId(layer)
+   dispatch(featureLayerDetailsAction(featureLayerId));
+  };
+  useEffect(() => {
+    dispatch(listFeatureLayerAction());
+    // setGeojsonData(layer?.geometryContent);
    
-   const featureLayerDetails = useSelector(state => state.featureLayerDetails)
-   const { loading : layerLoading, error : layerError, layer } = featureLayerDetails;
-
-   const handleFeatureLayer = (layer) => {
-    setFeatureLayerId(layer)
+  }, []);
+  useEffect(() => {
     dispatch(featureLayerDetailsAction(featureLayerId));
- };
-   // const ListFeatureLayer = useSelector(state => state.ListFeatureLayer)
-   // const { loading : featureLayersLoading, error : featureLayersError, featureLayers } = ListFeatureLayer;
-
-  //  console.log(featureLayers + "FEATURE LAYER ")
-  //  console.log(JSON.stringify(featureLayers)  + "LAYER FOUND 22")
-
-   useEffect(() => {
-      dispatch(listFeatureLayerAction());
-      // setGeojsonData(layer?.geometryContent);
-     
-    }, []);
-
-   useEffect(() => {
-      dispatch(featureLayerDetailsAction());
-      // lazy load the required ArcGIS API modules
-      loadModules([
-        'esri/Map',
-        'esri/views/MapView',
-        'esri/Graphic',
-        'esri/layers/GraphicsLayer'
-      ]).then(([Map, MapView, Graphic, GraphicsLayer]) => {
-        // create a new Map instance
-        const map = new Map({
-          basemap: 'streets-navigation-vector'
-        });
-
-
-
-
-        // create a new MapView instance and reference it with the mapRef DOM node
-        const view = new MapView({
-          container: mapRef.current,
-          map: map,
-          center: [7.5, 9.5],
-          zoom: 5
-        });
-  
-        // create a new GraphicsLayer instance and add it to the map
-        const graphicsLayer = new GraphicsLayer();
-        map.add(graphicsLayer);
-  
-        // create a new Graphic instance and add it to the GraphicsLayer
-        const geometryContent = layer?.geometryContent;
-        const polygon = {
-          type: 'polygon',
-          rings: layer?.geometryContent.coordinates[0][0],
-          spatialReference: { wkid: 4326 }
-        };
-        const graphic = new Graphic({
-          geometry: polygon,
-          symbol: {
-            type: 'simple-fill',
-            color: [0, 25, 0, 0.5],
-            style: 'solid',
-            outline: {
-              color: [0, 25, 0, 1],
-              width: 5
-            }
-
-          }
-        });
-        graphicsLayer.add(graphic);
-         // Create a graphic using the GeoJSON data
-         const graphic2 = new Graphic({
-          geometry: {
-            type: 'multipolygon',
-            coordinates: geojsonData.coordinates,
-          },
-          symbol: {
-            type: 'simple-fill',
-            color: 'rgba(255, 0, 0, 0.2)',
-            outline: {
-              color: 'red',
-              width: 2,
-            },
-          },
-        });
-  
-        // update the state variable with the MapView instance
-        setView(view);
+    loadModules([
+      'esri/Map',
+      'esri/views/MapView',
+      'esri/Graphic',
+      'esri/layers/GraphicsLayer'
+    ]).then(([Map, MapView, Graphic, GraphicsLayer]) => {
+      const map = new Map({
+        basemap: 'streets-navigation-vector'
       });
-    }, [featureLayerId]);
 
-    useEffect(() => {
-      dispatch(featureLayerDetailsAction());
-      setGeojsonData(layer?.geometryContent);
-     
+      const view = new MapView({
+        container: mapRef.current,
+        map: map,
+        center: [7.5, 9.5],
+        zoom: 5
+      });
 
-    }, []);
+      const geometryContent = layer?.geometryContent;
+
+      // create a polygon graphic
+      const polygon = {
+        type: 'polygon',
+        rings: geometryContent.coordinates[0][0],
+        spatialReference: { wkid: 4326 }
+      };
+      const polygonGraphic = new Graphic({
+        geometry: polygon,
+        symbol: {
+          type: 'simple-fill',
+          color: [0, 25, 0, 0.5],
+          style: 'solid',
+          outline: {
+            color: [0, 25, 0, 1],
+            width: 5
+          }
+        }
+      });
+      const polygonGraphicsLayer = new GraphicsLayer();
+      polygonGraphicsLayer.add(polygonGraphic);
+      map.add(polygonGraphicsLayer);
+
+      // create a multipolygon graphic
+      const multiPolygon = {
+        type: 'multipolygon',
+        coordinates: geometryContent.coordinates,
+      };
+      const multiPolygonGraphic = new Graphic({
+        geometry: polygon,
+        symbol: {
+          type: 'simple-fill',
+          color: 'rgba(255, 0, 0, 0.2)',
+          outline: {
+            color: 'red',
+            width: 2,
+          },
+        },
+      });
+      const multiPolygonGraphicsLayer = new GraphicsLayer();
+      multiPolygonGraphicsLayer.add(multiPolygonGraphic);
+      map.add(multiPolygonGraphicsLayer);
+
+      setView(view);
+      setPolygonGraphic(polygonGraphic);
+      setMultiPolygonGraphic(multiPolygonGraphic);
+    });
+  }, [featureLayerId]);
+
+  useEffect(() => {
+    dispatch(featureLayerDetailsAction(featureLayerId));
+  }, [featureLayerId]);
   
   
     return (
@@ -291,8 +258,8 @@ const LayerScreen = ({ match }) => {
 {
     featureLayers?.map((layer, index) =>
     <div class="flex items-center ml-4">
-    <input  id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 rounded focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-    <label onClick={() => handleFeatureLayer( layer?._id ) }  for="link-checkbox" class="ml-2 text-xs font-medium text-gray-900 dark:text-gray-300">{layer?.description} <a href="#" class="text-teal-600 dark:text-teal-500 hover:underline"></a></label>
+    {/* <input  id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 rounded focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input> */}
+    <label onClick={() => handleFeatureLayer( layer?._id ) }   class="ml-2 text-xs font-medium text-gray-900 dark:text-gray-300">{layer?.description} <p class="text-teal-600 dark:text-teal-500 hover:underline"></p></label>
 </div>
   )
 }
