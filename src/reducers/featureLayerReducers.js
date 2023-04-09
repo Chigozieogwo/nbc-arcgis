@@ -22,7 +22,7 @@ import {
          if (action.payload === undefined) {
             action.payload = {};
          }
-         return { loading: false, layer: action.payload };
+         return { loading: false, layer: action.payload, success:true };
       case FEATURE_LAYER_DETAILS_FAIL:
          return { loading: false, error: action.payload };
       case FEATURE_LAYER_DETAILS_RESET:
@@ -60,7 +60,8 @@ export const ListFeatureLayerReducer = (state = { featureLayers: [] }, action) =
       case LIST_FEATURE_LAYER_SUCCESS:
          return {
             loading: false,
-            featureLayers: action.payload
+            featureLayers: action.payload,
+           
          };
       case LIST_FEATURE_LAYER_FAIL:
          return { loading: false, error: action.payload };

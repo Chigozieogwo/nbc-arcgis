@@ -46,14 +46,15 @@ const LayerScreen = ({ match }) => {
   const ListFeatureLayer = useSelector(state => state.ListFeatureLayer)
   const { loading : featureLayersLoading, error : featureLayersError, featureLayers } = ListFeatureLayer;
 
-  console.log(JSON.stringify(polygonGraphic) + " poly FEATURE LAYER ")
-  console.log(JSON.stringify(multiPolygonGraphic) + "multi FEATURE LAYER ")
-  console.log(featureLayerId + " ID FEATURE LAYER ")
- //  console.log(JSON.stringify(featureLayers)  + "LAYER FOUND 22")
+  // console.log(JSON.stringify(polygonGraphic) + " poly FEATURE LAYER ")
+  // console.log(JSON.stringify(multiPolygonGraphic) + "multi FEATURE LAYER ")
+  // console.log(layer?.featureLayer._id + "  Details ID FEATURE LAYER ")
+  // console.log(featureLayerId + " List ID FEATURE LAYER ")
+  // console.log(JSON.stringify(featureLayers)  + "LAYER FOUND 22")
 
  const handleFeatureLayer = (layer) => {
-   setFeatureLayerId(layer)
    dispatch(featureLayerDetailsAction(featureLayerId));
+   setFeatureLayerId(layer)
   };
   useEffect(() => {
     dispatch(listFeatureLayerAction());
@@ -61,7 +62,7 @@ const LayerScreen = ({ match }) => {
    
   }, []);
   useEffect(() => {
-    dispatch(featureLayerDetailsAction(featureLayerId));
+    // dispatch(featureLayerDetailsAction(featureLayerId));
     loadModules([
       'esri/Map',
       'esri/views/MapView',
@@ -81,12 +82,19 @@ const LayerScreen = ({ match }) => {
 
       const geometryContent = layer?.geometryContent;
 
+      console.log(layer?.featureLayer._id + "  Details ID FEATURE LAYER ")
+  console.log(featureLayerId + " List ID FEATURE LAYER ")
+
+      
+      console.log(layer?.featureLayer.name  + " Name Of Layer to render ")
+
       // create a polygon graphic
       const polygon = {
         type: 'polygon',
         rings: geometryContent.coordinates[0][0],
         spatialReference: { wkid: 4326 }
       };
+      
       const polygonGraphic = new Graphic({
         geometry: polygon,
         symbol: {
@@ -122,6 +130,10 @@ const LayerScreen = ({ match }) => {
       const multiPolygonGraphicsLayer = new GraphicsLayer();
       multiPolygonGraphicsLayer.add(multiPolygonGraphic);
       map.add(multiPolygonGraphicsLayer);
+
+
+
+
 
       setView(view);
       setPolygonGraphic(polygonGraphic);
