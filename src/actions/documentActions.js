@@ -18,14 +18,15 @@ import {
 } from '../constants/documentConstants';
 // import url2 from '../utils/baseUrl.js'
 
-let url = process.env.REACT_APP_BASE_URL;geojsonData,
+let url = process.env.REACT_APP_BASE_URL;
 
 export const documentCreateAction =
-   (revenueLineName,
-      lgaKey,
-    revenueLineCode,
-    revenueLineAmount,
-    revenueLineFrequency) =>
+   ( name,
+      featureCategorization,
+      description,
+      parentFeatureLayerId,
+      geometry
+   ) =>
    async (dispatch, getState) => {
       try {
          dispatch({ type: DOCUMENT_CREATE_REQUEST });
@@ -45,21 +46,22 @@ export const documentCreateAction =
           
 
 console.log(
-   revenueLineName,
-   lgaKey,
-    revenueLineCode,
-    revenueLineAmount,
-    revenueLineFrequency)
+   name,
+          featureCategorization,
+   description,
+   parentFeatureLayerId,
+   geometry
+    )
 
           
          const { data } = await axios.post(
-            `${url}/revenuelines`,
+            `${url}/featurelayers/`,
             {
-                revenueLineName,
-                lgaKey,
-                revenueLineCode,
-                revenueLineAmount,
-                revenueLineFrequency
+               name,
+               featureCategorization,
+               description,
+               parentFeatureLayerId,
+               geometry
             },
             config
          );
@@ -81,8 +83,8 @@ console.log(
 
 
 
-   export const listDocuments =
-   (lga) =>
+   export const listDocumentsAction =
+   (id) =>
    async (dispatch, getState) => {
       try {
          dispatch({
@@ -101,23 +103,17 @@ console.log(
             
             }
           };
-         let data;
-         if (lga) {
-             data  = await axios.get(
-               `${url}/revenuelines?lgaKey=${lga}`,
-               config
-            )  
-         } else {
-             data  = await axios.get(
-               `${url}/revenuelines`,
-               config
-            )
-         }
+          const { data } = await axios.get(
+            `${url}/documents?featureLayerId=${id}`,
+            config
+         );
+    
+          console.log(data);
          
-         ;
+         
      
 
-         console.log(data);
+         // console.log(data);
 
          dispatch({
             type: DOCUMENT_LIST_SUCCESS,

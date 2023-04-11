@@ -49,7 +49,7 @@ import {
 } from '../constants/userConstants';
 
 
-const LayerScreen = ({ handleUpdateFeatureLayer}) => {
+const LayerViewScreen = ({ handleUpdateFeatureLayer}) => {
 
    const [showModalSubLayer , setShowModalSubLayer ] = useState(false)
    const [showModalDocument , setShowModalDocument ] = useState(false)
@@ -92,7 +92,9 @@ const LayerScreen = ({ handleUpdateFeatureLayer}) => {
       document,
       loading: loadingDocument,
       error: errorDocument
-  } = documentCreate;
+   } = documentCreate;
+   
+  
   
   const featureLayerUpdate = useSelector((state) => state.featureLayerUpdate);
    const {
@@ -101,17 +103,6 @@ const LayerScreen = ({ handleUpdateFeatureLayer}) => {
       success: successUpdate
      
    } = featureLayerUpdate;
-  
-
-   const featureLayerCreate = useSelector((state) => state.featureLayerCreate);
-   const {
-      featureLayer,
-      success:successFeature,
-      loading: loadingFeature,
-      error: errorFeature
-  } = featureLayerCreate;
-
-
   
    const convertToGeoJSON = (rings) => {
     const coordinates = rings[0].map((point) => {
@@ -159,12 +150,7 @@ const LayerScreen = ({ handleUpdateFeatureLayer}) => {
           
        );
     
-       setTimeout(() => {
-        //  dispatch(featureLayerDetailsAction(params.id));
-         if (successFeature) {
-          navigate(`/featureLayers/r/${featureLayer._id}/view`)
-         }
-       }, 1000);
+      
    };
   
    const handleFeatureLayer = (layerID) => {
@@ -176,247 +162,246 @@ const LayerScreen = ({ handleUpdateFeatureLayer}) => {
 
   useEffect(() => {
     dispatch(listFeatureLayerAction());
-    setParentFeatureLayerId(params.id)
+     setParentFeatureLayerId(params.id)
+    
+        
     // setGeojsonData(layer?.geometryContent);
-   
-   
+    setTimeout(() => {
+     dispatch(featureLayerDetailsAction(params.id));
+     
+   }, 4000);
   }, []);
 
 
   // FOr THe graphic draw
   // FOr THe graphic draw
-  // useEffect(() => {
-  //   dispatch(featureLayerDetailsAction(params.id));
-  //   loadModules([
-  //     "esri/widgets/Sketch",
-  //     "esri/Map",
-  //     "esri/layers/GraphicsLayer",
-  //     "esri/views/MapView",
-     
-  //   ]).then(([Sketch, Map, GraphicsLayer,MapView]) => {
-  //     const graphicsLayer = new GraphicsLayer();
-
-  //     const map = new Map({
-  //       basemap: basemap,
-  //       layers: [graphicsLayer],
-  //     });
-
-  //     const view = new MapView({
-  //       container: mapRef.current,
-  //       map: map,
-  //       zoom: 5,
-  //       center: [7.5, 9.5],
-  //     });
-
-  //     view.when(() => {
-  //       const sketch = new Sketch({
-  //         layer: graphicsLayer,
-  //         view: view,
-  //         creationMode: "update",
-  //       });
-
-  //       view.ui.add(sketch, "top-right");
-  //       sketch.on('create', (event) => {
-  //         if (event.state === 'complete') {
-  //           const geometry = event.graphic.geometry.toJSON();
-
-  //           const geoJSON = convertToGeoJSON(geometry.rings);
-
-  //           console.log(JSON.stringify(geometry.rings) + "rings Geometry Data Coordinate");
-  //           console.log(JSON.stringify(geoJSON) + " Geometry Data Coordinate");
-  //           console.log(geoJSON + " Raw Geometry Data Coordinate");
-            
-  //           // Send the geometry to the backend
-  //           setDataGeometry(geoJSON)
-  //         }
-  //       });
-      
-        
-  //     });
-  //   });
-  // }, [basemap]);
-  
-   
-     // FOr THe graphic display
-     // FOr THe graphic display
   useEffect(() => {
     dispatch(featureLayerDetailsAction(params.id));
     loadModules([
-      'esri/Map',
-      'esri/views/MapView',
-      'esri/Graphic',
-      'esri/layers/GraphicsLayer',
+      "esri/widgets/Sketch",
+      "esri/Map",
+      "esri/layers/GraphicsLayer",
+      "esri/views/MapView",
      
-    ]).then(([Map, MapView, Graphic, GraphicsLayer, geometryEngine]) => {
-      
+    ]).then(([Sketch, Map, GraphicsLayer,MapView]) => {
+      const graphicsLayer = new GraphicsLayer();
 
       const map = new Map({
-        basemap: basemap
+        basemap: basemap,
+        layers: [graphicsLayer],
       });
 
       const view = new MapView({
         container: mapRef.current,
         map: map,
+        zoom: 5,
         center: [7.5, 9.5],
-        zoom: 5
       });
 
-      const geometryContent = layer?.geometryContent;
+      view.when(() => {
+        const sketch = new Sketch({
+          layer: graphicsLayer,
+          view: view,
+          creationMode: "update",
+        });
 
-      // create a polygon graphic
-      const polygon = {
-        type: 'polygon',
-        rings: geometryContent.coordinates[0],
-        spatialReference: { wkid: 4326 }
-      };
+        view.ui.add(sketch, "top-right");
+        sketch.on('create', (event) => {
+          if (event.state === 'complete') {
+            const geometry = event.graphic.geometry.toJSON();
 
-      
-      const polygonGraphic = new Graphic({
-        geometry: polygon,
-        symbol: {
-          type: 'simple-fill',
-          color: [0, 25, 0, 0.5],
-          style: 'solid',
-          outline: {
-            color: [0, 25, 0, 1],
-            width: 5
+            const geoJSON = convertToGeoJSON(geometry.rings);
+
+            console.log(JSON.stringify(geometry.rings) + "rings Geometry Data Coordinate");
+            console.log(JSON.stringify(geoJSON) + " Geometry Data Coordinate");
+            console.log(geoJSON + " Raw Geometry Data Coordinate");
+            
+            // Send the geometry to the backend
+            setDataGeometry(geoJSON)
           }
-        }
+        });
+      
+        
       });
-      const polygonGraphicsLayer = new GraphicsLayer();
-      polygonGraphicsLayer.add(polygonGraphic);
-      map.add(polygonGraphicsLayer);
-
-      // create a multipolygon graphic
-      const multiPolygon = {
-        type: 'multipolygon',
-        coordinates: geometryContent.coordinates,
-      };
-      const multiPolygonGraphic = new Graphic({
-        geometry: polygon,
-        symbol: {
-          type: 'simple-fill',
-          color: 'rgba(255, 0, 0, 0.2)',
-          outline: {
-            color: 'red',
-            width: 2,
-          },
-        },
-      });
-      const multiPolygonGraphicsLayer = new GraphicsLayer();
-      multiPolygonGraphicsLayer.add(multiPolygonGraphic);
-      map.add(multiPolygonGraphicsLayer);
-
-      setView(view);
-      setPolygonGraphic(polygonGraphic);
-      setMultiPolygonGraphic(multiPolygonGraphic);
     });
-  }, [basemap,featureLayerId]);
+  }, [basemap]);
+  
+   
+   //   FOr THe graphic display
+   //   FOr THe graphic display
+   // useEffect(() => {
+   //    dispatch(featureLayerDetailsAction(featureLayerId));
+   //    loadModules([
+   //      'esri/Map',
+   //      'esri/views/MapView',
+   //      'esri/Graphic',
+   //      'esri/layers/GraphicsLayer'
+   //    ]).then(([Map, MapView, Graphic, GraphicsLayer]) => {
+   //      const map = new Map({
+   //        basemap: 'streets-navigation-vector'
+   //      });
+  
+   //      const view = new MapView({
+   //        container: mapRef.current,
+   //        map: map,
+   //        center: [7.5, 9.5],
+   //        zoom: 5
+   //      });
+  
+   //      const geometryContent = layer?.geometryContent;
+  
+   //      // create a polygon graphic
+   //      const polygon = {
+   //        type: 'polygon',
+   //        rings: geometryContent.coordinates[0][0],
+   //        spatialReference: { wkid: 4326 }
+   //      };
+   //      const polygonGraphic = new Graphic({
+   //        geometry: polygon,
+   //        symbol: {
+   //          type: 'simple-fill',
+   //          color: [0, 25, 0, 0.5],
+   //          style: 'solid',
+   //          outline: {
+   //            color: [0, 25, 0, 1],
+   //            width: 5
+   //          }
+   //        }
+   //      });
+   //      const polygonGraphicsLayer = new GraphicsLayer();
+   //      polygonGraphicsLayer.add(polygonGraphic);
+   //      map.add(polygonGraphicsLayer);
+  
+   //      // create a multipolygon graphic
+   //      const multiPolygon = {
+   //        type: 'multipolygon',
+   //        coordinates: geometryContent.coordinates,
+   //      };
+   //      const multiPolygonGraphic = new Graphic({
+   //        geometry: polygon,
+   //        symbol: {
+   //          type: 'simple-fill',
+   //          color: 'rgba(255, 0, 0, 0.2)',
+   //          outline: {
+   //            color: 'red',
+   //            width: 2,
+   //          },
+   //        },
+   //      });
+   //      const multiPolygonGraphicsLayer = new GraphicsLayer();
+   //      multiPolygonGraphicsLayer.add(multiPolygonGraphic);
+   //      map.add(multiPolygonGraphicsLayer);
+  
+   //      setView(view);
+   //      setPolygonGraphic(polygonGraphic);
+   //      setMultiPolygonGraphic(multiPolygonGraphic);
+   //    });
+   //  }, [featureLayerId]);
 
 
   
 
-  //  useEffect(() => {
-  //   dispatch(featureLayerDetailsAction(params.id));
-  //   loadModules([
-  //     'esri/Map',
-  //     'esri/views/MapView',
-  //     'esri/Graphic',
-  //     "esri/widgets/Sketch",
-  //     'esri/layers/GraphicsLayer'
-  //   ]).then(([Map, MapView, Graphic, GraphicsLayer,Sketch]) => {
-  //     const map = new Map({
-  //       basemap: basemap
-  //     });
+//    useEffect(() => {
+//     dispatch(featureLayerDetailsAction(params.id));
+//     loadModules([
+//       'esri/Map',
+//       'esri/views/MapView',
+//       'esri/Graphic',
+//       "esri/widgets/Sketch",
+//       'esri/layers/GraphicsLayer'
+//     ]).then(([Map, MapView, Graphic, GraphicsLayer,Sketch]) => {
+//       const map = new Map({
+//         basemap: basemap
+//       });
 
-  //     const view = new MapView({
-  //       container: mapRef.current,
-  //       map: map,
-  //       center: [7.5, 9.5],
-  //       zoom: 5
-  //     });
+//       const view = new MapView({
+//         container: mapRef.current,
+//         map: map,
+//         center: [7.5, 9.5],
+//         zoom: 5
+//       });
 
-  //     const geometryContent = layer?.geometryContent;
+//       const geometryContent = layer?.geometryContent;
 
-  //     console.log(layer?.featureLayer._id + "  Details ID FEATURE LAYER ")
-  // console.log(featureLayerId + " List ID FEATURE LAYER ")
+//       console.log(layer?.featureLayer._id + "  Details ID FEATURE LAYER ")
+//   console.log(featureLayerId + " List ID FEATURE LAYER ")
 
       
-  //     console.log(layer?.featureLayer.name  + " Name Of Layer to render ")
+//       console.log(layer?.featureLayer.name  + " Name Of Layer to render ")
 
-  //     // create a polygon graphic
-  //     const polygon = {
-  //       type: 'polygon',
-  //       rings: geometryContent.coordinates[0][0],
-  //       spatialReference: { wkid: 4326 }
-  //     };
+//       // create a polygon graphic
+//       const polygon = {
+//         type: 'polygon',
+//         rings: geometryContent.coordinates[0][0],
+//         spatialReference: { wkid: 4326 }
+//       };
       
-  //     const polygonGraphic = new Graphic({
-  //       geometry: polygon,
-  //       symbol: {
-  //         type: 'simple-fill',
-  //         color: [0, 25, 0, 0],
-  //         style: 'solid',
-  //         outline: {
-  //           color: [0, 25, 0, 1],
-  //           width: 5
-  //         }
-  //       }
-  //     });
-  //     const polygonGraphicsLayer = new GraphicsLayer();
-  //     polygonGraphicsLayer.add(polygonGraphic);
-  //     map.add(polygonGraphicsLayer);
+//       const polygonGraphic = new Graphic({
+//         geometry: polygon,
+//         symbol: {
+//           type: 'simple-fill',
+//           color: [0, 25, 0, 0],
+//           style: 'solid',
+//           outline: {
+//             color: [0, 25, 0, 1],
+//             width: 5
+//           }
+//         }
+//       });
+//       const polygonGraphicsLayer = new GraphicsLayer();
+//       polygonGraphicsLayer.add(polygonGraphic);
+//       map.add(polygonGraphicsLayer);
 
-  //     // create a multipolygon graphic
-  //     const multiPolygon = {
-  //       type: 'multipolygon',
-  //       coordinates: geometryContent.coordinates,
-  //     };
-  //     const multiPolygonGraphic = new Graphic({
-  //       geometry: polygon,
-  //       symbol: {
-  //         type: 'simple-fill',
-  //         color: 'rgba(255, 0, 0, 0)',
-  //         outline: {
-  //           color: 'red',
-  //           width: 2,
-  //         },
-  //       },
-  //     });
-  //     const multiPolygonGraphicsLayer = new GraphicsLayer();
-  //     multiPolygonGraphicsLayer.add(multiPolygonGraphic);
-  //     map.add(multiPolygonGraphicsLayer);
+//       // create a multipolygon graphic
+//       const multiPolygon = {
+//         type: 'multipolygon',
+//         coordinates: geometryContent.coordinates,
+//       };
+//       const multiPolygonGraphic = new Graphic({
+//         geometry: polygon,
+//         symbol: {
+//           type: 'simple-fill',
+//           color: 'rgba(255, 0, 0, 0)',
+//           outline: {
+//             color: 'red',
+//             width: 2,
+//           },
+//         },
+//       });
+//       const multiPolygonGraphicsLayer = new GraphicsLayer();
+//       multiPolygonGraphicsLayer.add(multiPolygonGraphic);
+//       map.add(multiPolygonGraphicsLayer);
 
-  //      //     map.add(graphicsLayer);
-  //     //     setView(view);
-  //         // setGraphicsLayer(polygonGraphicsLayer);
+//        //     map.add(graphicsLayer);
+//       //     setView(view);
+//           // setGraphicsLayer(polygonGraphicsLayer);
 
-  //     // if (view && graphicsLayer) {
-  //     //   const sketch = new Sketch({
-  //     //     view: view,
-  //     //     layer: graphicsLayer,
-  //     //     creationMode: 'update'
-  //     //   });
-  //     //   view.ui.add(sketch, 'top-right');
-  //     //   sketch.on('create', (event) => {
-  //     //     if (event.state === 'complete') {
-  //     //       const geometry = event.graphic.geometry.toJSON();
-  //     //       console.log(geometry);
-  //     //       // Send the geometry to the backend
-  //     //     }
-  //     //   });
-  //     // }
+//       // if (view && graphicsLayer) {
+//       //   const sketch = new Sketch({
+//       //     view: view,
+//       //     layer: graphicsLayer,
+//       //     creationMode: 'update'
+//       //   });
+//       //   view.ui.add(sketch, 'top-right');
+//       //   sketch.on('create', (event) => {
+//       //     if (event.state === 'complete') {
+//       //       const geometry = event.graphic.geometry.toJSON();
+//       //       console.log(geometry);
+//       //       // Send the geometry to the backend
+//       //     }
+//       //   });
+//       // }
 
 
-  //     setView(view);
-  //     setPolygonGraphic(polygonGraphic);
-  //     setMultiPolygonGraphic(multiPolygonGraphic);
+//       setView(view);
+//       setPolygonGraphic(polygonGraphic);
+//       setMultiPolygonGraphic(multiPolygonGraphic);
 
-  //     // const graphicsLayer = new GraphicsLayer();
+//       // const graphicsLayer = new GraphicsLayer();
      
-  //   });
+//     });
  
-  //  }, [view, basemap]);
+//    }, [view, basemap]);
 
   useEffect(() => {
     dispatch(featureLayerDetailsAction(params.id));
@@ -484,7 +469,7 @@ console.log(basemap + " basemap")
                </div>
                
                <div className="w-full bg-slate-100 ">
-                  <div className="">
+               <div className="">
                   <div className="h-10 bg-gray-800 flex justify-center items-center ">
                   {/* <div className="block md:flex -space-x-0.5 items-center cursor-pointer">
                      <div className="h-10 w-10 group relative border flex justify-center items-center border-2 bg-white border-gray-500 ">
@@ -806,4 +791,4 @@ console.log(basemap + " basemap")
    );
 };
 
-export default LayerScreen;
+export default LayerViewScreen;

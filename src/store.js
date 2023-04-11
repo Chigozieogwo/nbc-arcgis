@@ -9,10 +9,19 @@ import {
 import {
    addLayerToMapReducer,
    featureLayerDetailsReducer, 
-   ListFeatureLayerReducer
+   ListFeatureLayerReducer,
+   featureLayerUpdateReducer,
+   featureLayerCreateReducer
 } from './reducers/featureLayerReducers';
 
-
+import {
+   
+   documentCreateReducer,
+   documentListReducer,
+   documentDeleteReducer,
+   documentUpdateReducer,
+   documentDetailsReducer
+} from './reducers/documentReducers';
 
 
 const reducer = combineReducers({
@@ -20,9 +29,16 @@ const reducer = combineReducers({
     userDetails: userDetailsReducer,
     
     ListFeatureLayer :ListFeatureLayerReducer ,
-
      addLayerToMap:  addLayerToMapReducer,
      featureLayerDetails: featureLayerDetailsReducer,
+     featureLayerCreate: featureLayerCreateReducer,
+     featureLayerUpdate: featureLayerUpdateReducer,
+
+     documentCreate : documentCreateReducer,
+     documentList : documentListReducer,
+     documentDelete : documentDeleteReducer,
+     documentUpdate : documentUpdateReducer,
+     documentDetails : documentDetailsReducer
      });
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

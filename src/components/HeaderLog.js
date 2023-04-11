@@ -5,7 +5,7 @@ import { logout } from '../actions/userActions';
 import nbc from '../images/nbc.png';
 import user from '../images/user.png';
 import React, { useState, useEffect } from 'react';
-const HeaderLog = ( ) => {
+const HeaderLog = ({handleUpdateFeatureLayer} ) => {
 
    const dispatch = useDispatch();
 const [open ,setOpen] = useState(false)
@@ -48,6 +48,15 @@ const [open ,setOpen] = useState(false)
                     
                     >
                         Tools
+                     </Link>
+                  </li>
+                  <li onClick={handleUpdateFeatureLayer}>
+                     <Link
+                        to={''}
+                        class="block rounded py-2 mt-1 pr-4 pl-3 text-gray-800  border-gray-100 hover:bg-blue-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                    
+                    >
+                        Save
                      </Link>
                   </li>
                   <li>

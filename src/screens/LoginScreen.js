@@ -109,7 +109,7 @@ const LoginScreen = () => {
         </div>
       </div>
       <div class="mt-20 flex justify-center bg-base-100">
-            <h1> Nigeria Boundary Commission &copy;  Copyright 2023 </h1>
+            <h1> National Boundary Commission &copy;  Copyright 2023 </h1>
             
             
           

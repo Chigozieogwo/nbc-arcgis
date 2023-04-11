@@ -35,7 +35,7 @@ const SidebarLeft = () => {
                   </div>
                   </div>
                   </Link>
-                  <Link to="/layer">
+                  <Link to="/map">
                   
                   <div className="group ">
 
