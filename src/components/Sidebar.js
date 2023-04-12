@@ -36,7 +36,7 @@ const Sidebar = ({handleDocumentModal,handleSubLayerModal,handleID}) =>  {
                   <p  className="text-center text-sm font-medium mx-2 text-white ">New Document</p>
                   </div>
          </div>
-         <div onClick={handleSubLayerModal} className="flex space-x-4 bg-white hover:bg-green-500 hover:bg-opacity-75 group px-4 py-2 mt-2 cursor-pointer  ">
+         <div onClick={handleSubLayerModal} className="flex space-x-4 bg-white border border-green-500 hover:bg-green-500 hover:bg-opacity-75 group px-4 py-2 mt-2 cursor-pointer  ">
                   <img className='w-7' src={layers}></img>
                   <div className="flex justify-center items-center">
 

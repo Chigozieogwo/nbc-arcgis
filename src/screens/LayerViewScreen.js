@@ -72,7 +72,7 @@ const LayerViewScreen = ({ handleUpdateFeatureLayer}) => {
    const [featureLayerId, setFeatureLayerId] = useState();
    const [polygonGraphic, setPolygonGraphic] = useState(null);
    const [multiPolygonGraphic, setMultiPolygonGraphic] = useState(null);
- 
+   // const [graphicsLayer, setGraphicsLayer] = useState(null);
 // const [drawnLayers, setDrawnLayers] = useState([]);
   
    const dispatch = useDispatch();
@@ -205,6 +205,10 @@ const LayerViewScreen = ({ handleUpdateFeatureLayer}) => {
           creationMode: "update",
         });
 
+        map.add(graphicsLayer);
+        setView(view);
+        setGraphicsLayer(graphicsLayer);
+
         view.ui.add(sketch, "top-right");
         sketch.on('create', (event) => {
           if (event.state === 'complete') {
@@ -220,7 +224,8 @@ const LayerViewScreen = ({ handleUpdateFeatureLayer}) => {
             setDataGeometry(geoJSON)
           }
         });
-      
+      //   const graphicsLayer = new GraphicsLayer();
+        
         
       });
     });
@@ -229,179 +234,9 @@ const LayerViewScreen = ({ handleUpdateFeatureLayer}) => {
    
    //   FOr THe graphic display
    //   FOr THe graphic display
-   // useEffect(() => {
-   //    dispatch(featureLayerDetailsAction(featureLayerId));
-   //    loadModules([
-   //      'esri/Map',
-   //      'esri/views/MapView',
-   //      'esri/Graphic',
-   //      'esri/layers/GraphicsLayer'
-   //    ]).then(([Map, MapView, Graphic, GraphicsLayer]) => {
-   //      const map = new Map({
-   //        basemap: 'streets-navigation-vector'
-   //      });
-  
-   //      const view = new MapView({
-   //        container: mapRef.current,
-   //        map: map,
-   //        center: [7.5, 9.5],
-   //        zoom: 5
-   //      });
-  
-   //      const geometryContent = layer?.geometryContent;
-  
-   //      // create a polygon graphic
-   //      const polygon = {
-   //        type: 'polygon',
-   //        rings: geometryContent.coordinates[0][0],
-   //        spatialReference: { wkid: 4326 }
-   //      };
-   //      const polygonGraphic = new Graphic({
-   //        geometry: polygon,
-   //        symbol: {
-   //          type: 'simple-fill',
-   //          color: [0, 25, 0, 0.5],
-   //          style: 'solid',
-   //          outline: {
-   //            color: [0, 25, 0, 1],
-   //            width: 5
-   //          }
-   //        }
-   //      });
-   //      const polygonGraphicsLayer = new GraphicsLayer();
-   //      polygonGraphicsLayer.add(polygonGraphic);
-   //      map.add(polygonGraphicsLayer);
-  
-   //      // create a multipolygon graphic
-   //      const multiPolygon = {
-   //        type: 'multipolygon',
-   //        coordinates: geometryContent.coordinates,
-   //      };
-   //      const multiPolygonGraphic = new Graphic({
-   //        geometry: polygon,
-   //        symbol: {
-   //          type: 'simple-fill',
-   //          color: 'rgba(255, 0, 0, 0.2)',
-   //          outline: {
-   //            color: 'red',
-   //            width: 2,
-   //          },
-   //        },
-   //      });
-   //      const multiPolygonGraphicsLayer = new GraphicsLayer();
-   //      multiPolygonGraphicsLayer.add(multiPolygonGraphic);
-   //      map.add(multiPolygonGraphicsLayer);
-  
-   //      setView(view);
-   //      setPolygonGraphic(polygonGraphic);
-   //      setMultiPolygonGraphic(multiPolygonGraphic);
-   //    });
-   //  }, [featureLayerId]);
-
-
+   
   
 
-//    useEffect(() => {
-//     dispatch(featureLayerDetailsAction(params.id));
-//     loadModules([
-//       'esri/Map',
-//       'esri/views/MapView',
-//       'esri/Graphic',
-//       "esri/widgets/Sketch",
-//       'esri/layers/GraphicsLayer'
-//     ]).then(([Map, MapView, Graphic, GraphicsLayer,Sketch]) => {
-//       const map = new Map({
-//         basemap: basemap
-//       });
-
-//       const view = new MapView({
-//         container: mapRef.current,
-//         map: map,
-//         center: [7.5, 9.5],
-//         zoom: 5
-//       });
-
-//       const geometryContent = layer?.geometryContent;
-
-//       console.log(layer?.featureLayer._id + "  Details ID FEATURE LAYER ")
-//   console.log(featureLayerId + " List ID FEATURE LAYER ")
-
-      
-//       console.log(layer?.featureLayer.name  + " Name Of Layer to render ")
-
-//       // create a polygon graphic
-//       const polygon = {
-//         type: 'polygon',
-//         rings: geometryContent.coordinates[0][0],
-//         spatialReference: { wkid: 4326 }
-//       };
-      
-//       const polygonGraphic = new Graphic({
-//         geometry: polygon,
-//         symbol: {
-//           type: 'simple-fill',
-//           color: [0, 25, 0, 0],
-//           style: 'solid',
-//           outline: {
-//             color: [0, 25, 0, 1],
-//             width: 5
-//           }
-//         }
-//       });
-//       const polygonGraphicsLayer = new GraphicsLayer();
-//       polygonGraphicsLayer.add(polygonGraphic);
-//       map.add(polygonGraphicsLayer);
-
-//       // create a multipolygon graphic
-//       const multiPolygon = {
-//         type: 'multipolygon',
-//         coordinates: geometryContent.coordinates,
-//       };
-//       const multiPolygonGraphic = new Graphic({
-//         geometry: polygon,
-//         symbol: {
-//           type: 'simple-fill',
-//           color: 'rgba(255, 0, 0, 0)',
-//           outline: {
-//             color: 'red',
-//             width: 2,
-//           },
-//         },
-//       });
-//       const multiPolygonGraphicsLayer = new GraphicsLayer();
-//       multiPolygonGraphicsLayer.add(multiPolygonGraphic);
-//       map.add(multiPolygonGraphicsLayer);
-
-//        //     map.add(graphicsLayer);
-//       //     setView(view);
-//           // setGraphicsLayer(polygonGraphicsLayer);
-
-//       // if (view && graphicsLayer) {
-//       //   const sketch = new Sketch({
-//       //     view: view,
-//       //     layer: graphicsLayer,
-//       //     creationMode: 'update'
-//       //   });
-//       //   view.ui.add(sketch, 'top-right');
-//       //   sketch.on('create', (event) => {
-//       //     if (event.state === 'complete') {
-//       //       const geometry = event.graphic.geometry.toJSON();
-//       //       console.log(geometry);
-//       //       // Send the geometry to the backend
-//       //     }
-//       //   });
-//       // }
-
-
-//       setView(view);
-//       setPolygonGraphic(polygonGraphic);
-//       setMultiPolygonGraphic(multiPolygonGraphic);
-
-//       // const graphicsLayer = new GraphicsLayer();
-     
-//     });
- 
-//    }, [view, basemap]);
 
   useEffect(() => {
     dispatch(featureLayerDetailsAction(params.id));
@@ -714,7 +549,7 @@ console.log(basemap + " basemap")
                            ) : null}
 
            {/* {layerLoading && <Loader />} */}
-            <div ref={mapRef} style={{height:"530px"}} className="min-h-screen1 relative" >
+            <div ref={mapRef} style={{height:"530px6"}} className="min-h-screen relative" >
                   <div className='hidden md:block absolute bottom-0 left-0 right-0 h-18 '>
                      <div className='flex justify-between items-end flex-row space-x-0.5 text-white'>
                         <div className="p-2">

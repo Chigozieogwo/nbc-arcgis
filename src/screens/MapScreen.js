@@ -329,7 +329,7 @@ useEffect(() => {
                            ) : null}
 
 
-               <div ref={mapRef} style={{height:"500px"}} className="min-h-screen1 relative" >
+               <div ref={mapRef} style={{height:"500px6"}} className="min-h-screen relative" >
                   <div className='hidden md:block absolute bottom-0 left-0 right-0 h-18 '>
                      <div className='flex justify-between items-end flex-row space-x-0.5 text-white'>
                         <div className="p-2">
