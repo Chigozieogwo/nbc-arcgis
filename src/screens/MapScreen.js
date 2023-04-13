@@ -47,7 +47,11 @@ import { SpatialReference, Extent } from '@arcgis/core/geometry';
 import { loadModules } from 'esri-loader';
 
 const MapScreen = ({ match }) => {
-   const [showModalLayer , setShowModalLayer ] = useState(false)
+   const [showModalLayer, setShowModalLayer] = useState(false)
+   const [showModalSubLayer , setShowModalSubLayer ] = useState(false)
+   const [showModalCreate , setShowModalCreate ] = useState(false)
+
+
    const [basemap, setBasemap] = useState('streets')
    
    
@@ -78,6 +82,7 @@ const MapScreen = ({ match }) => {
       error: errorFeature
   } = featureLayerCreate;
 
+   
 
    const handleClose = () => {
       setShowModalLayer(false); 
@@ -103,13 +108,8 @@ const MapScreen = ({ match }) => {
           
        );
     
-      //  navigate(`/featureLayers/r/${featureLayer._id}/view`)
-       setTimeout(() => {
-        //  dispatch(featureLayerDetailsAction(params.id));
-         if (successFeature) {
-          navigate(`/featureLayers/r/${featureLayer._id}/view`)
-         }
-       }, 1000);
+       setShowModalLayer(false)
+       setShowModalCreate(true)
    };
 
 console.log(basemap + " basemap")
@@ -144,6 +144,16 @@ useEffect(() => {
    });
      
    }, [basemap]);
+
+   useEffect(() => {
+      dispatch(listFeatureLayerAction());
+      // setParentFeatureLayerId(params.id)
+      // setGeojsonData(layer?.geometryContent);
+      if (successFeature) {
+        navigate(`/featureLayers/r/${featureLayer._id}/view`)
+     }
+     
+    }, [featureLayer]);
 
    return (
       <>
@@ -228,6 +238,59 @@ useEffect(() => {
                   </div>
                </div>
                
+               {showModalCreate ? (
+                              <div
+                              // onClick={handleClose}
+                              tabindex="-1"
+                              class="flex  justify-center  bg-[rgb(0,0,0,0.35)] align-center overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full"
+                           >
+                              <div class="relative  w-full max-w-md h-full md:h-auto">
+                              <div>
+                              
+                                         </div>
+                                 
+                                 <div class="">
+                                     
+                                    <div class=" max-w-sm bg-white mt-28 ml-1 p-4 md:ml-1 rounded-lg border border-gray-200 shadow-md sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
+                                    <div class="flex justify-end">
+                                              <div></div>
+                                          
+                                          <button
+                                             onClick={()=>setShowModalCreate(false)}
+                                             type="button"
+                                             class=" text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                                             data-modal-toggle="popup-modal"
+                                          >
+                                             <svg
+                                                class="w-5 h-5"
+                                                fill="currentColor"
+                                                viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                             >
+                                                <path
+                                                   fill-rule="evenodd"
+                                                   d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                   clip-rule="evenodd"
+                                                ></path>
+                                             </svg>
+                                          </button>
+                     </div> 
+                     <div className='flex justify-center items-center'>
+                       
+                       <Loader />
+                       
+                     </div>
+                                       {/* {message && (
+                                          <Message variant="danger">
+                                             {message}
+                                          </Message>
+                                       )} */}
+                                       
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           ) : null}
 
                {showModalLayer ? (
                               <div

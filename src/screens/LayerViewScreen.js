@@ -17,7 +17,7 @@ import layer2 from "../images/layer2.png"
 import layer3 from "../images/layer3.png"
 import layer4 from "../images/layer4.png"
 import delete1 from "../images/delete.png"
-import Sidebar from '../components/Sidebar';
+import SidebarView from '../components/SidebarView';
 import SidebarLeft from '../components/SidebarLeft';
 import SidebarLayer from '../components/SidebarLayer';
 // import delete1 from "../images/delete.png"
@@ -38,7 +38,7 @@ import { listFeatureLayerAction,featureLayerCreateAction } from '../actions/feat
 import { documentCreateAction } from '../actions/documentActions';
 import file from "../images/file2.png"
 import document2 from "../images/file.png"
-
+import  proj4 from 'proj4';
 
 
 import { Tooltip} from 'react-tooltip';
@@ -104,19 +104,10 @@ const LayerViewScreen = ({ handleUpdateFeatureLayer}) => {
      
    } = featureLayerUpdate;
   
-   const convertToGeoJSON = (rings) => {
-    const coordinates = rings[0].map((point) => {
-      return [point[0], point[1]];
-    });
-    return {
-      type: 'polygon',
-      coordinates: [coordinates],
-    };
-  };
-
+   // handleUpdateFeatureLayer
   
-   const updateFeatureLayerHandler = (e) => {
-    e.preventDefault();
+   const updateFeatureLayerHandler = () => {
+   //  e.preventDefault();
     dispatch(
       updateFeatureLayerAction({
           id : layer.featureLayer._id,
@@ -172,18 +163,30 @@ const LayerViewScreen = ({ handleUpdateFeatureLayer}) => {
    }, 4000);
   }, []);
 
+  const convertToGeoJSON = (rings) => {
+   const coordinates = rings[0].map((point) => {
+     return [point[0], point[1]];
+   });
+   return {
+     type: 'polygon',
+      coordinates: [coordinates],
+      spatialReference: { wkid: 102100 }
+   };
+ };
+
 
   // FOr THe graphic draw
   // FOr THe graphic draw
   useEffect(() => {
     dispatch(featureLayerDetailsAction(params.id));
     loadModules([
+       'esri/geometry/geometryEngine',
       "esri/widgets/Sketch",
       "esri/Map",
       "esri/layers/GraphicsLayer",
-      "esri/views/MapView",
-     
-    ]).then(([Sketch, Map, GraphicsLayer,MapView]) => {
+       "esri/views/MapView",
+       'esri/geometry/support/webMercatorUtils'
+    ]).then(([geometryEngine,Sketch, Map, GraphicsLayer,MapView,webMercatorUtils ]) => {
       const graphicsLayer = new GraphicsLayer();
 
       const map = new Map({
@@ -213,12 +216,26 @@ const LayerViewScreen = ({ handleUpdateFeatureLayer}) => {
         sketch.on('create', (event) => {
           if (event.state === 'complete') {
             const geometry = event.graphic.geometry.toJSON();
+//              const transformFunction = proj4('EPSG:102100', 'EPSG:4326');
+             
+//              const webMercatorPoint = geometry.rings; // example coordinates in Web Mercator
+// const wgs84Point = transformFunction.forward(webMercatorPoint); // converted coordinates in WGS 84
+// console.log(wgs84Point + " Convert 1"); // output: [-111.1234567, 44.1234567]
+// console.log(JSON.stringify(wgs84Point) + " Convert 12"); // output: [-111.1234567, 44.1234567]
 
-            const geoJSON = convertToGeoJSON(geometry.rings);
 
-            console.log(JSON.stringify(geometry.rings) + "rings Geometry Data Coordinate");
+             const geoJSON = convertToGeoJSON(geometry.rings);
+             // Convert the point to spatial reference 4326
+             const point4326 = webMercatorUtils.webMercatorToGeographic(geometry.rings);
+              const point43262 = webMercatorUtils.project(point4326, { wkid: 4326 });
+
+      console.log(point4326 + " converted 1");
+      console.log(point43262 + " converted 133");
+      console.log(JSON.stringify(point43262) + " converted 12");
+
+            console.log(JSON.stringify(geometry) + "rings Geometry Data Coordinate");
             console.log(JSON.stringify(geoJSON) + " Geometry Data Coordinate");
-            console.log(geoJSON + " Raw Geometry Data Coordinate");
+            console.log(geometry + " Raw Geometry Data Coordinate");
             
             // Send the geometry to the backend
             setDataGeometry(geoJSON)
@@ -604,10 +621,10 @@ console.log(basemap + " basemap")
                   {/* <label for="my-drawer-3" class="drawer-overlay"></label> */}
                   <ul class="w-60 ">
                      {/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<< the Sidebar >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/}
-             <Sidebar
+             <SidebarView
                handleID={params.id}
                handleDocumentModal={showDocumentHandler}
-               handleSubLayerModal={showSubLayerHandler}></Sidebar>
+               handleSubLayerModal={showSubLayerHandler}></SidebarView>
                      {/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<< the Sidebar >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/}
                   </ul>
                  

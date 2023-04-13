@@ -22,7 +22,9 @@ const SidebarLeft = () => {
          <aside class="w-20 min-h-screen bg-white" aria-label="SidebarLeft">
            
                 <div className="space-y-4 mt-5">
-                <Link to="/create">
+               <Link
+                  // to="/create"
+               >
                   <div className="group ">
                   <div className=" group-hover:bg-green-500 px-4 py-2 cursor-pointer group-hover:text-white">
                      <div className="flex justify-center items-center">
@@ -51,7 +53,9 @@ const SidebarLeft = () => {
                   </div>
                   </Link>
                   
-                  <Link to="/details">
+               <Link
+                  // to="/details"
+               >
                   <div className="group ">
                   <div className=" group-hover:bg-green-500 px-4 py-2 cursor-pointer group-hover:text-white">
                      <div className="flex justify-center items-center">
@@ -65,7 +69,9 @@ const SidebarLeft = () => {
                   </div>
                   </Link>
 
-                  <Link to="/map">
+               <Link
+                  // to="/map"
+               >
                   <div className="group ">
                   <div className=" group-hover:bg-green-500 px-4 py-2 cursor-pointer group-hover:text-white">
                      <div className="flex justify-center items-center">

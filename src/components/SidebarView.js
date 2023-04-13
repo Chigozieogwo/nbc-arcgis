@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../actions/userActions';
 import { listDocumentsAction } from '../actions/documentActions';
 import file from "../images/file2.png"
+import map4 from "../images/map4.png"
 import document2 from "../images/file.png"
 import layers from "../images/layers.png"
-import map4 from "../images/map4.png"
 
 
 
-const Sidebar = ({handleDocumentModal,handleSubLayerModal,handleID}) =>  {
+const SidebarView = ({handleDocumentModal,handleSubLayerModal,handleID}) =>  {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const Sidebar = ({handleDocumentModal,handleSubLayerModal,handleID}) =>  {
   
 
   const handleLayerEditor = () => {
-    Navigate(`/featureLayers/r/${handleID}/view`)
+    Navigate(`/featureLayers/r/${handleID}`)
   }
      useEffect(() => {
       dispatch(listDocumentsAction(handleID));
@@ -46,16 +46,16 @@ const Sidebar = ({handleDocumentModal,handleSubLayerModal,handleID}) =>  {
                   <img className='w-7' src={map4}></img>
                   <div className="flex justify-center items-center">
 
-                  <p  className="text-center text-sm font-medium mx-2 group-hover:text-white ">Open Layer Editor</p>
+                  <p  className="text-center text-sm font-medium mx-2 group-hover:text-white ">View Layer</p>
                   </div>
                 </div>
-         <div onClick={handleSubLayerModal} className="flex space-x-4 bg-white border border-green-500 hover:bg-green-500 hover:bg-opacity-75 group px-4 py-2 mt-2 cursor-pointer  ">
+         {/* <div onClick={handleSubLayerModal} className="flex space-x-4 bg-white border border-green-500 hover:bg-green-500 hover:bg-opacity-75 group px-4 py-2 mt-2 cursor-pointer  ">
                   <img className='w-7' src={layers}></img>
                   <div className="flex justify-center items-center">
 
                   <p  className="text-center text-sm font-medium mx-2 group-hover:text-white ">New SubLayer</p>
                   </div>
-                </div>
+                </div> */}
 
                 <p className="text-left text-xs mt-4 mb-2 font-medium mx-2 text-gray-500 ">open saved document</p>
 
@@ -80,7 +80,7 @@ const Sidebar = ({handleDocumentModal,handleSubLayerModal,handleID}) =>  {
    );
 };
 
-export default Sidebar;
+export default SidebarView;
 
 
 
