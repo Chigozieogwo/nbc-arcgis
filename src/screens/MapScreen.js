@@ -21,6 +21,7 @@ import Sidebar from '../components/Sidebar';
 import SidebarLeft from '../components/SidebarLeft';
 import SidebarLayer from '../components/SidebarLayer';
 import { listFeatureLayerAction,featureLayerCreateAction } from '../actions/featureLayerActions';
+import { FEATURE_LAYER_CREATE_RESET, } from '../constants/featureLayerConstants';
 
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -150,8 +151,9 @@ useEffect(() => {
       // setParentFeatureLayerId(params.id)
       // setGeojsonData(layer?.geometryContent);
       if (successFeature) {
-        navigate(`/featureLayers/r/${featureLayer._id}/view`)
-     }
+         navigate(`/featureLayers/r/${featureLayer._id}/view`)
+         dispatch({ type: FEATURE_LAYER_CREATE_RESET });
+      }
      
     }, [featureLayer]);
 

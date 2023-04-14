@@ -11,6 +11,7 @@ import {
    FEATURE_LAYER_CREATE_FAIL,
    FEATURE_LAYER_CREATE_REQUEST,
    FEATURE_LAYER_CREATE_SUCCESS,
+   FEATURE_LAYER_CREATE_RESET,
     LIST_FEATURE_LAYER_FAIL,
     LIST_FEATURE_LAYER_REQUEST,
     LIST_FEATURE_LAYER_SUCCESS,
@@ -31,6 +32,8 @@ import {
          return { loading: false, featureLayer: action.payload, success: true };
       case FEATURE_LAYER_CREATE_FAIL:
          return { loading: false, error: action.payload };
+      case FEATURE_LAYER_CREATE_RESET:
+            return { featureLayer: {} }; 
       default:
          return state;
    }

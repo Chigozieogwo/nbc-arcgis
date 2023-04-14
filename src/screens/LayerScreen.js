@@ -626,7 +626,7 @@ const LayerScreen = ({ handleUpdateFeatureLayer}) => {
   useEffect(() => {
     dispatch(featureLayerDetailsAction(params.id));
     // setSpartialReference(layer?.geometryContent.type)
-  }, [params.id]);
+  }, [params.id,featureLayerId]);
 
   
 
