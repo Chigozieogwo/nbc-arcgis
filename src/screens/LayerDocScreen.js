@@ -36,6 +36,7 @@ import Map from '@arcgis/core/Map';
 import MapView from '@arcgis/core/views/MapView.js';
 import { loadModules } from 'esri-loader';
 import { listFeatureLayerAction,featureLayerCreateAction } from '../actions/featureLayerActions';
+import { documentDetailsAction } from '../actions/documentActions';
 import { documentCreateAction } from '../actions/documentActions';
 import file from "../images/file2.png"
 import document2 from "../images/file.png"
@@ -50,7 +51,7 @@ import {
 } from '../constants/userConstants';
 let url = process.env.REACT_APP_BASE_URL;
 
-const LayerScreen = ({ handleUpdateFeatureLayer}) => {
+const LayerDocScreen = ({ handleUpdateFeatureLayer}) => {
 
    const [showModalSubLayer , setShowModalSubLayer ] = useState(false)
    const [showModalCreate , setShowModalCreate ] = useState(false)
@@ -88,13 +89,25 @@ const LayerScreen = ({ handleUpdateFeatureLayer}) => {
   const params = useParams();
   
   console.log(params.id + " params")
+  console.log(params.fileID + " params File id")
  
    const featureLayerDetails = useSelector(state => state.featureLayerDetails)
    const { loading : layerLoading, error : layerError, layer,success } = featureLayerDetails;
  
+
    
    const ListFeatureLayer = useSelector(state => state.ListFeatureLayer)
    const { loading : featureLayersLoading, error : featureLayersError, featureLayers } = ListFeatureLayer;
+
+   const  documentDetails = useSelector((state) => state. documentDetails);
+   const {
+      document : documentSingle,
+      loading: loadingDocumentSingle,
+      error: errorDocumentSingle
+   } = documentDetails;
+   
+   console.log(documentSingle + " <<<<<<<<<>>>>>>>>>>>>>>")
+
 
    const documentCreate = useSelector((state) => state.documentCreate);
    const {
@@ -103,6 +116,11 @@ const LayerScreen = ({ handleUpdateFeatureLayer}) => {
       error: errorDocument
   } = documentCreate;
   
+
+  const openInNewTab = url => {
+   window.open(url, '_blank', 'noopener,noreferrer');
+ };
+    
   const featureLayerUpdate = useSelector((state) => state.featureLayerUpdate);
    const {
       loading: loadingUpdate,
@@ -248,6 +266,7 @@ const LayerScreen = ({ handleUpdateFeatureLayer}) => {
 
   useEffect(() => {
     dispatch(listFeatureLayerAction());
+    dispatch(documentDetailsAction(params.fileID));
     setParentFeatureLayerId(params.id)
     setFeatureLayerId(params.id)
     // setGeojsonData(layer?.geometryContent);
@@ -255,7 +274,7 @@ const LayerScreen = ({ handleUpdateFeatureLayer}) => {
       navigate(`/featureLayers/r/${featureLayer._id}/view`)
    }
    
-  }, [featureLayer,progress]);
+  }, [featureLayer,progress,params.fileID]);
 
 
   const [polygonLayer, setPolygonLayer] = useState(null);
@@ -1154,7 +1173,28 @@ console.log(basemap + " basemap")
                            ) : null}
 
            {/* {layerLoading && <Loader />} */}
-            <div ref={mapRef} style={{height:"530px6"}} className="min-h-screen relative" >
+           
+               <div>
+                  <div style={{ height: "200px" }} className="flex  p-4 space-x-4 bg-white my-2 rounded-lg" >
+                     <div className="">
+                  <iframe src={`${documentSingle?.presignedUrl}`} width="100%" height="500px" />
+
+                     </div>
+                     <div className="space-y-4 ">
+                        <h4 className="font-bold text-md ">Title : { documentSingle?.document.title }</h4>
+                        <p className="font-normal text-sm ">Description : {documentSingle?.document.description}</p>
+                        
+                        <div onClick={() => openInNewTab(`${documentSingle?.presignedUrl}`)} className="flex space-x-4 bg-white border border-green-500 hover:bg-green-500 hover:bg-opacity-75 group px-4 py-2 mt-2 cursor-pointer  ">
+                  <img className='w-7' src={file2}></img>
+                  <div className="flex justify-center items-center">
+
+                  <p  className="text-center text-sm font-medium mx-2 group-hover:text-white ">View Document</p>
+                  </div>
+                </div>
+                     </div>
+                  
+                  </div>
+                    <div ref={mapRef} style={{height:"300px"}} className="min-h-screen1 mt-2 relative" >
                   <div className='hidden md:block absolute bottom-0 left-0 right-0 h-18 '>
                      <div className='flex justify-between items-end flex-row space-x-0.5 text-white'>
                         <div className="p-2">
@@ -1189,8 +1229,8 @@ console.log(basemap + " basemap")
 
                   </div>
                   
-                  </div> 
-           
+                  </div>  
+           </div>
               
                    {/* <div className=" ficon min-h-screen flex justify-center items-center cursor-pointer  ">
                      <div className="bg-white rounded-md group px-8 py-3 group-hover:bg-green-500">
@@ -1211,6 +1251,7 @@ console.log(basemap + " basemap")
                      {/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<< the Sidebar >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/}
              <Sidebar
                handleID={params.id}
+               handleFileID={params.fileID}
                handleDocumentModal={showDocumentHandler}
                handleSubLayerModal={showSubLayerHandler}></Sidebar>
                      {/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<< the Sidebar >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/}
@@ -1231,4 +1272,4 @@ console.log(basemap + " basemap")
    );
 };
 
-export default LayerScreen;
+export default LayerDocScreen;

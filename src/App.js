@@ -4,6 +4,7 @@ import RegisterScreen from './screens/RegisterScreen.js'
 import MapScreen from './screens/MapScreen.js'
 import DocumentScreen from './screens/DocumentScreen.js'
 import LayerScreen from './screens/LayerScreen.js'
+import LayerDocScreen from './screens/LayerDocScreen.js'
 import LayerViewScreen from './screens/LayerViewScreen.js'
 import DetailScreen from './screens/DetailScreen.js'
 import esriConfig from "@arcgis/core/config.js";
@@ -20,6 +21,7 @@ function App() {
         <Route exact path="/map" element={<MapScreen />} />
         <Route exact path="/create" element={<DocumentScreen />} />
         <Route exact path="/featureLayers/r/:id" element={<LayerScreen />} />
+        <Route exact path="/featureLayers/r/:id/:fileID" element={<LayerDocScreen />} />
         <Route exact path="/featureLayers/r/:id/view" element={<LayerViewScreen />} />
         <Route exact path="/layer" element={<LayerScreen />} />
         <Route exact path="/details" element={<DetailScreen />} />

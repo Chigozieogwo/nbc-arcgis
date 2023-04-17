@@ -7,10 +7,10 @@ import file from "../images/file2.png"
 import document2 from "../images/file.png"
 import layers from "../images/layers.png"
 import map4 from "../images/map4.png"
+let url = process.env.REACT_APP_BASE_URL;
 
 
-
-const Sidebar = ({handleDocumentModal,handleSubLayerModal,handleID}) =>  {
+const Sidebar = ({handleDocumentModal,handleSubLayerModal,handleID,handleFileID}) =>  {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
@@ -18,16 +18,25 @@ const Sidebar = ({handleDocumentModal,handleSubLayerModal,handleID}) =>  {
      const { loading : documentsLoading, error : documentsError,documents } =  documentList;
   console.log(documents + " documents")
   
-
+  const documentCreate = useSelector((state) => state.documentCreate);
+  const {
+     document,
+     loading: loadingDocument,
+     error: errorDocument
+ } = documentCreate;
   const handleLayerEditor = () => {
-    Navigate(`/featureLayers/r/${handleID}/view`)
+    Navigate(`/featureLayers/r/${handleID}`)
   }
      useEffect(() => {
       dispatch(listDocumentsAction(handleID));
       // setGeojsonData(layer?.geometryContent);
      
-    }, []);
+    }, [document]);
 
+  
+    const openInNewTab = url => {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    };
   
   return (
      <div>
@@ -41,14 +50,21 @@ const Sidebar = ({handleDocumentModal,handleSubLayerModal,handleID}) =>  {
 
                   <p  className="text-center text-sm font-medium mx-2 text-white ">New Document</p>
                   </div>
-         </div>
-         <div onClick={handleLayerEditor} className="flex space-x-4 bg-white border border-green-500 hover:bg-green-500 hover:bg-opacity-75 group px-4 py-2 mt-2 cursor-pointer  ">
+        </div>
+        { handleFileID && <div onClick={handleLayerEditor} className="flex space-x-4 bg-white border border-green-500 hover:bg-green-500 hover:bg-opacity-75 group px-4 py-2 mt-2 cursor-pointer  ">
+                  <img className='w-7' src={map4}></img>
+                  <div className="flex justify-center items-center">
+
+                  <p  className="text-center text-sm font-medium mx-2 group-hover:text-white ">View Layer</p>
+                  </div>
+                </div> }
+         {/* <div onClick={handleLayerEditor} className="flex space-x-4 bg-white border border-green-500 hover:bg-green-500 hover:bg-opacity-75 group px-4 py-2 mt-2 cursor-pointer  ">
                   <img className='w-7' src={map4}></img>
                   <div className="flex justify-center items-center">
 
                   <p  className="text-center text-sm font-medium mx-2 group-hover:text-white ">Open Layer Editor</p>
                   </div>
-                </div>
+                </div> */}
          <div onClick={handleSubLayerModal} className="flex space-x-4 bg-white border border-green-500 hover:bg-green-500 hover:bg-opacity-75 group px-4 py-2 mt-2 cursor-pointer  ">
                   <img className='w-7' src={layers}></img>
                   <div className="flex justify-center items-center">
@@ -63,15 +79,17 @@ const Sidebar = ({handleDocumentModal,handleSubLayerModal,handleID}) =>  {
                 
                 
                 {
-    documents?.map((document, index) =>
+            documents?.map((document, index) =>
+              <Link  to={`/featureLayers/r/${handleID}/${document._id}` } >
     <div  className="flex items-center space-x-4 bg-white hover:bg-green-500 hover:bg-opacity-75 group px-4 py-2 mt-2 cursor-pointer  ">
                   <img className=' w-7 h-5' src={document2}></img>
                   <div className="flex justify-center items-center">
 
           <p className="text-center text-xs font-medium mx-2 group-hover:text-white ">{ document.title}</p>
                   </div>
-                </div>
-  )
+                  
+                </div></Link>
+  ).reverse().slice(0,20)
 }
           
                 </div>

@@ -21,11 +21,7 @@ import {
 let url = process.env.REACT_APP_BASE_URL;
 
 export const documentCreateAction =
-   ( name,
-      featureCategorization,
-      description,
-      parentFeatureLayerId,
-      geometry
+   ( title,descriptionDoc,formData,featureLayerId
    ) =>
    async (dispatch, getState) => {
       try {
@@ -46,25 +42,13 @@ export const documentCreateAction =
           
 
 console.log(
-   name,
-          featureCategorization,
-   description,
-   parentFeatureLayerId,
-   geometry
+   title,descriptionDoc,formData,featureLayerId
     )
 
           
-         const { data } = await axios.post(
-            `${url}/featurelayers/`,
-            {
-               name,
-               featureCategorization,
-               description,
-               parentFeatureLayerId,
-               geometry
-            },
-            config
-         );
+         const { data } = await axios.post(`${url}/documents/`, { title,descriptionDoc,formData,featureLayerId }, config, {
+            
+         } );
 
          dispatch({
             type: DOCUMENT_CREATE_SUCCESS,
@@ -172,7 +156,7 @@ export const documentDeleteAction = (id) => async (dispatch, getState) => {
    }
 };
 
-export const documentDetailsAction = (revenue) => async (dispatch, getState) => {
+export const documentDetailsAction = (id) => async (dispatch, getState) => {
    try {
       dispatch({ type: DOCUMENT_DETAILS_REQUEST });
 
@@ -189,7 +173,7 @@ export const documentDetailsAction = (revenue) => async (dispatch, getState) => 
          }
        };
        
-      const { data } = await axios.get(`${url}/revenuelines/${revenue.revenueLineCode}`, config);
+      const { data } = await axios.get(`${url}/documents/${id}`, config);
 
       dispatch({
          type: DOCUMENT_DETAILS_SUCCESS,
