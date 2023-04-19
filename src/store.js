@@ -5,6 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import {
    userLoginReducer,
    userDetailsReducer, 
+   userSuperAdminRegisterReducer
 } from './reducers/userReducers';
 import {
    addLayerToMapReducer,
@@ -26,7 +27,8 @@ import {
 
 const reducer = combineReducers({
     userLogin: userLoginReducer, 
-    userDetails: userDetailsReducer,
+   userDetails: userDetailsReducer,
+   userSuperAdminRegister : userSuperAdminRegisterReducer,
     
     ListFeatureLayer :ListFeatureLayerReducer ,
      addLayerToMap:  addLayerToMapReducer,

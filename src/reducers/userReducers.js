@@ -3,6 +3,9 @@ import {
     USER_LOGIN_FAIL,
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
+    USER_SUPERADMIN_REGISTER_FAIL,
+    USER_SUPERADMIN_REGISTER_REQUEST,
+    USER_SUPERADMIN_REGISTER_SUCCESS,
     USER_LOGOUT,
     USER_DETAILS_FAIL,
     USER_DETAILS_REQUEST,
@@ -52,6 +55,19 @@ export const userDetailsReducer = (state = { user: {} }, action) => {
     }
  };
 
-
+ export const userSuperAdminRegisterReducer = (state = {}, action) => {
+   switch (action.type) {
+     case USER_SUPERADMIN_REGISTER_REQUEST:
+       return { loading: true }
+     case USER_SUPERADMIN_REGISTER_SUCCESS:
+       return { loading: false, userInfo: action.payload }
+     case USER_SUPERADMIN_REGISTER_FAIL:
+       return { loading: false, error: action.payload }
+     case USER_LOGOUT:
+       return {}
+     default:
+       return state
+   }
+ }
 
 
