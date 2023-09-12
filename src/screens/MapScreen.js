@@ -59,7 +59,7 @@ const MapScreen = ({ match }) => {
    const [name , setName ] = useState('')
    const [description , setDescription ] = useState('')
    const [featureCategorization , setFeatureCategorization ] = useState('foundational')
-   const [parentFeatureLayerId , setParentFeatureLayerId ] = useState('64255390eebde2dd4f78618d')
+   const [parentFeatureLayerId , setParentFeatureLayerId ] = useState('')
   const [geometry, setGeometry] = useState({})
 
 
