@@ -126,7 +126,7 @@ const LayerScreen = ({ handleUpdateFeatureLayer}) => {
 
   
    const convertToGeoJSON = (rings) => {
-    const coordinates = rings[0].map((point) => {
+    const coordinates = rings[0][0].map((point) => {
       return [point[0], point[1]];
     });
     return {
@@ -149,8 +149,7 @@ const LayerScreen = ({ handleUpdateFeatureLayer}) => {
           description : layer.featureLayer.description,
           parentFeatureLayerId : layer.featureLayer.parentFeatureLayerId ,
           geometry : dataGeometry ,
-          
-          
+            
        })
     );
     console.log( layer.featureLayer._id + 'new revenueLineCode,')
@@ -732,113 +731,7 @@ const LayerScreen = ({ handleUpdateFeatureLayer}) => {
 
 console.log(basemap + " basemap")
 
-//   useEffect(() => {
-//     dispatch(featureLayerDetailsAction(params.id));
-//   loadModules([
-//     "esri/Map",
-//     "esri/views/MapView",
-//     "esri/Graphic",
-//     "esri/geometry/Polygon",
-//     "esri/layers/GraphicsLayer"
-//   ]).then(([Map, MapView, Graphic, Polygon, GraphicsLayer]) => {
-
-//     const polygonJson = layer?.geometryContent;
-
-//     if (polygonJson) {
-      
-//       setSpartialReference(layer?.geometryContent.type)
-//     }
-
-//     let polygon;
-//     // console.log(layer?.geometryContent + " wkid")
-//     if (spartialReference === "polygon") {
-     
-//       polygon = new Polygon({
-//         rings: polygonJson?.coordinates,
-//         spatialReference: { wkid: 102100 }
-//       });
-//     } else if (spartialReference === "MultiPolygon") {
-//       polygon = new Polygon({
-//         rings: polygonJson?.coordinates[0],
-//         spatialReference: { wkid: 4326 }
-//       });
-      
-// }
-    
-//     const graphic = new Graphic({
-//        geometry: polygon,
-//        symbol: {
-//                  type: 'simple-fill',
-//                  color: 'rgba(255, 0, 0, 0)',
-//                  outline: {
-//                    color: 'green',
-//                    width: 6,
-//                  },
-//                },
-     
-//     });
-//     const graphicWhite = new Graphic({
-//        geometry: polygon,
-//        symbol: {
-//                  type: 'simple-fill',
-//                  color: 'rgba(255, 0, 0, 0)',
-//                  outline: {
-//                    color: 'white',
-//                    width: 4,
-//                  },
-//                },
-     
-//     });
-//     const graphic2 = new Graphic({
-//        geometry: polygon,
-//        symbol: {
-//                  type: 'simple-fill',
-//                  color: 'rgba(255, 0, 0, 0)',
-//                  outline: {
-//                    color: 'green',
-//                    width: 1,
-//                  },
-//                },
-     
-//     });
-
-//     const polygonLayer = new GraphicsLayer({
-//       hitTestEnabled: true
-//     });
-
-//     polygonLayer.add(graphic);
-//     polygonLayer.add(graphicWhite);
-//     polygonLayer.add(graphic2);
-
-//     const map = new Map({
-//       basemap: basemap,
-//       layers: [polygonLayer]
-//     });
-
-//     const view = new MapView({
-//       container: mapRef.current,
-//       map: map,
-//       center: [7.5, 9.5],
-//       zoom: 5
-//     });
-
-//    //  view.on("pointer-down", (event) => {
-//    //    // only include graphics from polygonLayer in the hitTest
-//    //    const opts = {
-//    //      include: polygonLayer
-//    //    };
-//    //    view.hitTest(event, opts).then((response) => {
-//    //      if (response.results && response.results.length > 0) {
-//    //        console.log(`layer got clicked `, response);
-//    //        alert(`hello, got clicked`);
-//    //      }
-//    //    });
-//    //  });
-//   });
-// }, [basemap]);
-
    
-
 useEffect(() => {
    dispatch(featureLayerDetailsAction(params.id));
    loadModules([
@@ -860,12 +753,12 @@ useEffect(() => {
  
      if (spatialReference === 'polygon') {
        polygon = new Polygon({
-         rings: polygonJson?.coordinates,
+         rings: polygonJson?.coordinates[0],
          spatialReference: { wkid: 102100 }
        });
      } else if (spatialReference === 'MultiPolygon') {
        polygon = new Polygon({
-         rings: polygonJson?.coordinates[0],
+         rings: polygonJson?.coordinates[0][0],
          spatialReference: { wkid: 4326 }
        });
      }
